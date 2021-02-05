@@ -4,3 +4,10 @@ Feature: Training for Lingo
   In order to prepare for my TV appearance
 
   Scenario:
+    Given
+    When
+    Then
+    And/But
+
+
+
