@@ -3,7 +3,7 @@ Feature: Start new game
   I want to start a new game by pressing a button,
   In order to practice lingo.
 
-  Scenario: a new game is started
+  Scenario: Start a new game
     When I click on the "Start Game" button
     Then I should see a textfield where I can put word in
     And I should see a tabel with 5 rows that contains 5,6 or 7 letter words
@@ -34,11 +34,9 @@ Scenario: Guessing a word
 
 
   Scenario Outline: Guessing a word
-    Given a "<word>" to guess when
+    Given a "<word>" to guess
     When I  attempt to "<guess>" the word
     Then I expect to get "<feedback>" with "<shown hint>"
-
-
 
 
   Examples:
