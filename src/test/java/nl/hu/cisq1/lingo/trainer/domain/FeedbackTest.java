@@ -5,8 +5,12 @@ import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 
 class FeedbackTest {
@@ -57,7 +61,7 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("guess is invalid if all letter is invalid")
+    @DisplayName("guess is invalid if all letter are invalid")
     void GuessIsInvalid(){
 //        p: arrange
 //        q: act
@@ -69,6 +73,40 @@ class FeedbackTest {
         assertTrue(feedback.isGuessInvalid());
 
     }
+
+
+
+    static Stream<Arguments> provideHintExamples() {
+//        q: act
+        String woord = "WOORD";
+
+//        R: assert
+       return  Stream.of(
+               Arguments.of("WORDT", woord, List.of(CORRECT,CORRECT,PRESENT,PRESENT,ABSENT)),
+               Arguments.of("WAARD", woord, List.of(CORRECT,ABSENT,ABSENT,CORRECT,CORRECT)),
+               Arguments.of("WOORD", woord, List.of(CORRECT,CORRECT,CORRECT,CORRECT,CORRECT))
+
+       );
+
+    }
+
+
+    @MethodSource("provideHintExamples")
+    @DisplayName("provide hint examples")
+    @ParameterizedTest
+    void test(String attempt, String word, List<Mark> marks){
+
+        assertEquals(attempt, word);
+
+
+
+
+
+    }
+
+
+
+
 
 
 }
