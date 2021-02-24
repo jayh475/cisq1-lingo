@@ -82,9 +82,9 @@ class FeedbackTest {
 
 //        R: assert
        return  Stream.of(
-               Arguments.of("WORDT", woord, List.of(CORRECT,CORRECT,PRESENT,PRESENT,ABSENT)),
-               Arguments.of("WAARD", woord, List.of(CORRECT,ABSENT,ABSENT,CORRECT,CORRECT)),
-               Arguments.of("WOORD", woord, List.of(CORRECT,CORRECT,CORRECT,CORRECT,CORRECT))
+               Arguments.of("W....","WORDT", woord, List.of(CORRECT,CORRECT,PRESENT,PRESENT,ABSENT)),
+               Arguments.of("WO....","WAARD", woord, List.of(CORRECT,ABSENT,ABSENT,CORRECT,CORRECT)),
+               Arguments.of("WO.RD","WOORD", woord, List.of(CORRECT,CORRECT,CORRECT,CORRECT,CORRECT))
 
        );
 
@@ -94,7 +94,7 @@ class FeedbackTest {
     @MethodSource("provideHintExamples")
     @DisplayName("provide hint examples")
     @ParameterizedTest
-    void test(String attempt, String word, List<Mark> marks){
+    void test(String previousHint,String attempt, String word, List<Mark> marks ){
 
         assertEquals(attempt, word);
 
