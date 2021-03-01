@@ -2,19 +2,33 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class Feedback {
-    private final  String attempt;
+    private  String attempt;
     private final List<Mark> marks;
     private  List<String> hint;
 
     public Feedback(String attempt, List<Mark> marks) {
-        this.attempt = attempt;
+        if(attempt.length() != marks.size()){
+            throw new CustomException("length attempt does not match mark size");
+        }
+        else {
+            this.attempt = attempt;
+            this.marks = marks;
+        }
+
+    }
+
+    public Feedback(List<Mark> marks) {
         this.marks = marks;
     }
+
+
 
     public boolean isWordGuessed(){
         return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
@@ -44,16 +58,30 @@ public class Feedback {
     }
 
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(attempt, marks);
-    }
+    public List<String> giveHint(List<String> previousHint, String wordToGuess){
+        String[] listOfLetters = wordToGuess.split("");
+        List<String> hints = new ArrayList<>();
 
-    public List<Character> giveHint(Character previousHint, String wordToGuess, List<Mark> marks){
 
-        return List.of();
+        for(int i = 0; i < listOfLetters.length; i++ ){
+            if(marks.get(i) == Mark.CORRECT){
+                hints.add(listOfLetters[i]);
 
-    }
+
+            }
+            else if(marks.get(i) != Mark.CORRECT){
+                    hints.add(previousHint.get(i));
+
+                }
+            else {
+                hints.add(".");
+            }
+            }
+        return hints;
+        }
+
+
+
 
 
     @Override

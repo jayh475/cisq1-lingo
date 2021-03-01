@@ -82,9 +82,9 @@ class FeedbackTest {
 
 //        R: assert
        return  Stream.of(
-               Arguments.of("W....","WORDT", woord, List.of(CORRECT,CORRECT,PRESENT,PRESENT,ABSENT)),
-               Arguments.of("WO....","WAARD", woord, List.of(CORRECT,ABSENT,ABSENT,CORRECT,CORRECT)),
-               Arguments.of("WO.RD","WOORD", woord, List.of(CORRECT,CORRECT,CORRECT,CORRECT,CORRECT))
+               Arguments.of(List.of("W",".",".",".","."),woord, List.of(CORRECT,CORRECT,PRESENT,PRESENT,ABSENT), List.of("W","O",".",".",".") ),
+               Arguments.of(List.of("W","O",".",".","."),woord, List.of(CORRECT,ABSENT,ABSENT,CORRECT,CORRECT), List.of("W","O",".","R","D")),
+               Arguments.of(List.of("W","O",".","R","D"),woord, List.of(CORRECT,CORRECT,CORRECT,CORRECT,CORRECT),List.of("W","O","O","R","D"))
 
        );
 
@@ -94,9 +94,9 @@ class FeedbackTest {
     @MethodSource("provideHintExamples")
     @DisplayName("provide hint examples")
     @ParameterizedTest
-    void test(String previousHint,String attempt, String word, List<Mark> marks ){
-
-        assertEquals(attempt, word);
+    void test(List<String> previousHint, String word, List<Mark> marks, List<String> hint ){
+      Feedback feedback = new Feedback(marks);
+        assertEquals(hint, feedback.giveHint(previousHint,word));
 
 
 
