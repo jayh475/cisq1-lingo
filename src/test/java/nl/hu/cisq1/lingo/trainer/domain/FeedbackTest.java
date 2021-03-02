@@ -94,9 +94,9 @@ class FeedbackTest {
     @MethodSource("provideHintExamples")
     @DisplayName("provide hint examples")
     @ParameterizedTest
-    void test(List<String> previousHint, String word, List<Mark> marks, List<String> hint ){
+    void test(List<String> previousHint, String wordToGuess, List<Mark> marks, List<String> hint ){
       Feedback feedback = new Feedback(marks);
-        assertEquals(hint, feedback.giveHint(previousHint,word));
+        assertEquals(hint, feedback.giveHint(previousHint,wordToGuess));
 
 
 

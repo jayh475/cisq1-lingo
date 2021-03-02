@@ -7,8 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static nl.hu.cisq1.lingo.trainer.domain.Mark.ABSENT;
-import static nl.hu.cisq1.lingo.trainer.domain.Mark.CORRECT;
+import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -20,50 +19,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoundTest {
 
 
-//    static Stream<Arguments> provideAttemptsExample() {
-//        Feedback feedback = new Feedback(List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT));
-//
-//        return Stream.of(
-//                Arguments.of(feedback),
-//                Arguments.of(feedback),
-//                Arguments.of(feedback),
-//                Arguments.of(feedback),
-//                Arguments.of(feedback),
-//                Arguments.of(feedback)
-//
-//
-//        );
-//    }
-
-//    @MethodSource("provideAttemptsExample")
-//    @ParameterizedTest
 
 
+
+
+    @MethodSource("provideMarkExamples")
+    @DisplayName("give right marks")
+    @ParameterizedTest
+    void giveMarks(String attempt,String wordToGuess, List<Mark> marks){
+        Round round = new Round(wordToGuess);
+
+        assertEquals(round.giveMarks(attempt) , marks);
+
+    }
 
 
         static Stream<Arguments> provideMarkExamples() {
-        Feedback feedback = new Feedback(List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT));
+
 
         return Stream.of(
-                Arguments.of(feedback),
-                Arguments.of(feedback),
-                Arguments.of(feedback),
-                Arguments.of(feedback),
-                Arguments.of(feedback),
-                Arguments.of(feedback)
+                Arguments.of("WAADT","WOORD",List.of(CORRECT, ABSENT, ABSENT,PRESENT ,ABSENT)),
+                Arguments.of("WOORDEN","WOORD",List.of(INVALID,INVALID,INVALID,INVALID,INVALID)),
+                Arguments.of("HET","WOORD",List.of(INVALID,INVALID,INVALID))
+//                Arguments.of(feedback),
+//                Arguments.of(feedback),
+//                Arguments.of(feedback)
 
 
         );
     }
 
-        @MethodSource("provideAttemptsExample")
-    @DisplayName("give right marks")
-    @ParameterizedTest
-    void giveMarks(){
-//        Round round = new Round();
-//        assertEquals(round.iets(attempt, word) , marks);
 
-    }
+
 
 
 
@@ -77,7 +64,7 @@ class RoundTest {
 
 
 //    @Test
-//    @DisplayName("Player score can't be negative")
+//    @DisplayName("")
 //    void
 //
 

@@ -24,6 +24,10 @@ public class Feedback {
 
     }
 
+
+
+
+
     public Feedback(List<Mark> marks) {
         this.marks = marks;
     }
@@ -59,9 +63,8 @@ public class Feedback {
 
 
     public List<String> giveHint(List<String> previousHint, String wordToGuess){
-        String[] listOfLetters = wordToGuess.split("");
+        String[] listOfLetters = wordToGuess.toUpperCase().split("");
         List<String> hints = new ArrayList<>();
-
 
         for(int i = 0; i < listOfLetters.length; i++ ){
             if(marks.get(i) == Mark.CORRECT){

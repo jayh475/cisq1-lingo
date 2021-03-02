@@ -2,31 +2,57 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
+import static nl.hu.cisq1.lingo.trainer.domain.Mark.ABSENT;
 
 public class Round {
     private String wordToGuess;
-    private List<Feedback> attempts;
+    private List<Feedback> attempts = new ArrayList<>();
 
-    public Round(String wordToGuess, List<Feedback> feedback) {
+
+    public Round(String wordToGuess) {
         this.wordToGuess = wordToGuess;
-        if(attempts.size() > 5){
-            throw new CustomException("Attemps can't be more than 5");
-        }else {
-            this.attempts = feedback;
+    }
+
+    public List<Mark> giveMarks(String attempt) {
+        List<Mark> marks = new ArrayList<>();
+        String[] wordToGuessList = wordToGuess.split("");
+        String[] lettersOfAttempt = attempt.split("");
+
+        if (wordToGuess.length() != attempt.length()) {
+            for (int i = 0; i < wordToGuess.length(); i++) {
+                marks.add(INVALID);
+            }
+        } else {
+
+
+            for (int i = 0; i < wordToGuess.length(); i++) {
+                if (wordToGuessList[i].equals(lettersOfAttempt[i])) {
+                    marks.add(CORRECT);
+                } else if (Arrays.asList(wordToGuessList).contains(lettersOfAttempt[i])) {
+                    marks.add(PRESENT);
+                } else {
+                    marks.add(ABSENT);
+                }
+            }
+
+
         }
-    }
-
-    public List<Mark> giveMark(){
-        return null;
+        return marks;
 
 
     }
 
+    public void startRound(){
+        if(attempts.isEmpty()){
 
+        }
 
-
-
+    }
 
 
 }

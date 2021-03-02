@@ -58,7 +58,7 @@ Feature: Start new game
   | BAARD| 'B', '.', '.', '.', '.'  | BONJE       | CORRECT, ABSENT, ABSENT, ABSENT ,ABSENT              |
   | BAARD| 'B', '.', '.', '.', '.'  | BARST       | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT            |
   | BAARD| 'B', 'A', '.', '.', '.'  | DRAAD       | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT           |
-  | BAARD| 'B', 'A', 'A', '.', 'D'  |BAARD        | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT          |
+  | BAARD| 'B', 'A', 'A', '.', 'D'  | BAARD       | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT          |
 
 
 Scenario: Player is eliminated after 5 incorrect guesses
@@ -75,7 +75,8 @@ Scenario: Player is eliminated after 5 incorrect guesses
   Scenario Outline: Score increases based on number of attempts
     Given I am playing a game
     And the score is "<current score>"
-    And the word to guess is "<school>" v    
+    And the word to guess is "<school>"
     Examples:
       |  |
+
 
