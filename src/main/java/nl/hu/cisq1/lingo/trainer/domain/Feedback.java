@@ -9,27 +9,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Feedback {
-    private  String attempt;
+    private final String attempt;
     private final List<Mark> marks;
-    private  List<String> hint;
+    private  List<String> hint = new ArrayList<>();
 
     public Feedback(String attempt, List<Mark> marks) {
-        if(attempt.length() != marks.size()){
-            throw new CustomException("length attempt does not match mark size");
-        }
-        else {
-            this.attempt = attempt;
-            this.marks = marks;
-        }
+        if(attempt.length() != marks.size())
+            throw new CustomException("length attempt does not match mark size"); // TODO als een woord te lang is dan komt deze error en geen invalid overal wat nu ?
 
-    }
-
-
-
-
-
-    public Feedback(List<Mark> marks) {
+        this.attempt = attempt;
         this.marks = marks;
+
+
     }
 
 
@@ -66,10 +57,10 @@ public class Feedback {
         String[] listOfLetters = wordToGuess.toUpperCase().split("");
         List<String> hints = new ArrayList<>();
 
+
         for(int i = 0; i < listOfLetters.length; i++ ){
             if(marks.get(i) == Mark.CORRECT){
                 hints.add(listOfLetters[i]);
-
 
             }
             else if(marks.get(i) != Mark.CORRECT){
@@ -80,20 +71,24 @@ public class Feedback {
                 hints.add(".");
             }
             }
+        this.hint = hints;
         return hints;
         }
 
 
 
 
-
-    @Override
     public String toString() {
         return "Feedback{" +
                 "attempt='" + attempt + '\'' +
                 ", marks=" + marks +
                 '}';
     }
+
+
+
+
+
 
 
 }

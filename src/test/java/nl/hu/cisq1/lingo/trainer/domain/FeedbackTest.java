@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,16 +17,14 @@ import java.util.stream.Stream;
 class FeedbackTest {
 
 
-
-
     @Test
     @DisplayName("word is guessed if all letters are correct")
-    void wordIsGuessed(){
+    void wordIsGuessed() {
 //        p: arrange
 //        q: act
-        String  attempt = "WOORD";
+        String attempt = "WOORD";
         List<Mark> marks = List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT);
-        Feedback feedback = new Feedback(attempt,marks);
+        Feedback feedback = new Feedback(attempt, marks);
 
 //        R: assert
         assertTrue(feedback.isWordGuessed());
@@ -34,12 +33,12 @@ class FeedbackTest {
 
     @Test
     @DisplayName("word is not guessed if not all letters are correct")
-    void wordIsNotGuessed(){
+    void wordIsNotGuessed() {
 //        p: arrange
 //        q: act
-        String  attempt = "WOORD";
+        String attempt = "WOORD";
         List<Mark> marks = List.of(CORRECT, CORRECT, CORRECT, CORRECT, ABSENT);
-        Feedback feedback = new Feedback(attempt,marks);
+        Feedback feedback = new Feedback(attempt, marks);
 
 //        R: assert
         assertFalse(feedback.isWordGuessed());
@@ -48,12 +47,12 @@ class FeedbackTest {
 
     @Test
     @DisplayName("guess is valid if no letter is invalid")
-    void GuessIsvalid(){
+    void GuessIsvalid() {
 //        p: arrange
 //        q: act
-        String  attempt = "WOORD";
+        String attempt = "WOORD";
         List<Mark> marks = List.of(CORRECT, CORRECT, CORRECT, CORRECT, ABSENT);
-        Feedback feedback = new Feedback(attempt,marks);
+        Feedback feedback = new Feedback(attempt, marks);
 
 //        R: assert
         assertTrue(feedback.isGuessValid());
@@ -62,12 +61,12 @@ class FeedbackTest {
 
     @Test
     @DisplayName("guess is invalid if all letter are invalid")
-    void GuessIsInvalid(){
+    void GuessIsInvalid() {
 //        p: arrange
 //        q: act
-        String  attempt = "WOORD";
-        List<Mark> marks = List.of(INVALID,INVALID,INVALID,INVALID);
-        Feedback feedback = new Feedback(attempt,marks);
+        String attempt = "WOORD";
+        List<Mark> marks = List.of(INVALID, INVALID, INVALID, INVALID);
+        Feedback feedback = new Feedback(attempt, marks);
 
 //        R: assert
         assertTrue(feedback.isGuessInvalid());
@@ -75,38 +74,28 @@ class FeedbackTest {
     }
 
 
+    @MethodSource("provideHintExamples")
+    @DisplayName("provide hint examples")
+    @ParameterizedTest
+    void test(String attempt, List<String> previousHint, String wordToGuess, List<Mark> marks, List<String> hint) {
+        Feedback feedback = new Feedback(attempt, marks);
+        assertEquals(hint, feedback.giveHint(previousHint, wordToGuess));
+
+    }
 
     static Stream<Arguments> provideHintExamples() {
 //        q: act
         String woord = "WOORD";
 
 //        R: assert
-       return  Stream.of(
-               Arguments.of(List.of("W",".",".",".","."),woord, List.of(CORRECT,CORRECT,PRESENT,PRESENT,ABSENT), List.of("W","O",".",".",".") ),
-               Arguments.of(List.of("W","O",".",".","."),woord, List.of(CORRECT,ABSENT,ABSENT,CORRECT,CORRECT), List.of("W","O",".","R","D")),
-               Arguments.of(List.of("W","O",".","R","D"),woord, List.of(CORRECT,CORRECT,CORRECT,CORRECT,CORRECT),List.of("W","O","O","R","D"))
+        return Stream.of(
+                Arguments.of("WOONT", List.of("W", ".", ".", ".", "."), woord, List.of(CORRECT, CORRECT, PRESENT, PRESENT, ABSENT), List.of("W", "O", ".", ".", ".")),
+                Arguments.of("WOERD", List.of("W", "O", ".", ".", "."), woord, List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT), List.of("W", "O", ".", "R", "D")),
+                Arguments.of("WOORD", List.of("W", "O", ".", "R", "D"), woord, List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), List.of("W", "O", "O", "R", "D"))
 
-       );
-
-    }
-
-
-    @MethodSource("provideHintExamples")
-    @DisplayName("provide hint examples")
-    @ParameterizedTest
-    void test(List<String> previousHint, String wordToGuess, List<Mark> marks, List<String> hint ){
-      Feedback feedback = new Feedback(marks);
-        assertEquals(hint, feedback.giveHint(previousHint,wordToGuess));
-
-
-
-
+        );
 
     }
-
-
-
-
 
 
 }
