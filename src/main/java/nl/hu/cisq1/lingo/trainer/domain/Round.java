@@ -11,15 +11,15 @@ import java.util.List;
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.ABSENT;
 
-
+@Getter
+@Setter
 public class Round {
-    private String wordToGuess;
-    private List<Feedback> feedbackList = new ArrayList<>();
+    private final String wordToGuess;
+    private final List<Feedback> feedbackList = new ArrayList<>();
 
 
     public Round(String wordToGuess) {
         this.wordToGuess = wordToGuess;
-
     }
 
 
@@ -28,54 +28,58 @@ public class Round {
         String[] wordToGuessList = wordToGuess.split("");
         String[] lettersOfAttempt = attempt.split("");
 
-        if (wordToGuess.length() != attempt.length()) {
-            for (int i = 0; i < wordToGuess.length(); i++) {
-                marks.add(INVALID);
-            }
-        } else {
 
+        List<String> lettersThatArePresent = new ArrayList<>();
+
+
+        if (wordToGuess.length() != attempt.length()) {
+            throw new CustomException("wordToGuess length does not match attempt length");
+
+        } else {
 
             for (int i = 0; i < wordToGuess.length(); i++) {
                 if (wordToGuessList[i].equals(lettersOfAttempt[i])) {
                     marks.add(CORRECT);
+                    lettersThatArePresent.add(lettersOfAttempt[i]);
+
                 } else if (Arrays.asList(wordToGuessList).contains(lettersOfAttempt[i])) {
                     marks.add(PRESENT);
+
                 } else {
                     marks.add(ABSENT);
                 }
             }
         }
         feedbackList.add(new Feedback(attempt, marks));
+        giveHint();
         return marks;
     }
 
 
-    public String initializeRound() {
+    public List<String> initializeFirstHint() {
         String[] wordToGuessList = this.wordToGuess.split("");
         List<String> hints = new ArrayList<>();
-        if (feedbackList.isEmpty()) {
 
-            for (int i = 0; i < wordToGuessList.length; i++) {
-                if (i == 0) {
-                    hints.add(wordToGuessList[i]);
-                } else {
-                    hints.add(".");
-                }
+        for (int i = 0; i < wordToGuessList.length; i++) {
+            if (i == 0) {
 
+                hints.add(wordToGuessList[i]);
+            } else {
+                hints.add(".");
             }
+
         }
-        return String.join("", hints);
-    }
-
-    public List<Feedback> getFeedbackHistory() {
-        return feedbackList;
+        return hints;
     }
 
 
-    public void guess(String attempt){
-        if(checkIfRoundFinished()){
+
+
+
+    public void guess(String attempt) {
+        if (checkIfRoundFinished()) {
             throw new CustomException("cannot guess because round is finished");
-        }else{
+        } else {
             generateMarks(attempt);
 
         }
@@ -83,13 +87,31 @@ public class Round {
 
     }
 
+    public List<String> giveHint() {
+        if (feedbackList.isEmpty()) {
+            return initializeFirstHint();
+        } else if (feedbackList.size() == 1) {
+            return feedbackList.get(0).giveHint(initializeFirstHint(), wordToGuess);
+
+        } else {
+            return feedbackList.get(feedbackList.size() - 1).giveHint(feedbackList.get(feedbackList.size() - 2).getHint(), wordToGuess);
+
+        }
+    }
+
 
     public boolean checkIfRoundFinished() {
-        return feedbackList.size() >= 5 || feedbackList.stream().anyMatch(Feedback :: isWordGuessed);
+        return feedbackList.size() >= 5 || feedbackList.stream().anyMatch(Feedback::isWordGuessed);
+    }
+
+
+    public Integer getCurrentWorthLength() {
+        return wordToGuess.length();
     }
 
 
 }
+
 
 
 

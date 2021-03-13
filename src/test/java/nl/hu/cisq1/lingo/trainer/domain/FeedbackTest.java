@@ -4,6 +4,8 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,34 +47,6 @@ class FeedbackTest {
 
     }
 
-    @Test
-    @DisplayName("guess is valid if no letter is invalid")
-    void GuessIsvalid() {
-//        p: arrange
-//        q: act
-        String attempt = "WOORD";
-        List<Mark> marks = List.of(CORRECT, CORRECT, CORRECT, CORRECT, ABSENT);
-        Feedback feedback = new Feedback(attempt, marks);
-
-//        R: assert
-        assertTrue(feedback.isGuessValid());
-
-    }
-
-    @Test
-    @DisplayName("guess is invalid if all letter are invalid")
-    void GuessIsInvalid() {
-//        p: arrange
-//        q: act
-        String attempt = "WOORD";
-        List<Mark> marks = List.of(INVALID, INVALID, INVALID, INVALID);
-        Feedback feedback = new Feedback(attempt, marks);
-
-//        R: assert
-        assertTrue(feedback.isGuessInvalid());
-
-    }
-
 
     @MethodSource("provideHintExamples")
     @DisplayName("provide hint examples")
@@ -94,6 +68,14 @@ class FeedbackTest {
                 Arguments.of("WOORD", List.of("W", "O", ".", "R", "D"), woord, List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), List.of("W", "O", "O", "R", "D"))
 
         );
+
+    }
+
+
+    @Test
+    @DisplayName("throw exception if length marks is not equal to length attempt")
+    void exceptionTest() {
+        assertThrows(CustomException.class, () -> new Feedback("WOORD", List.of(ABSENT, ABSENT)));
 
     }
 

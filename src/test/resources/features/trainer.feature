@@ -54,7 +54,7 @@ Feature: Start new game
 
   Examples:
   | word | shown hint               | guess       | feedback                                             |
-  | BAARD| 'B', '.', '.', '.', '.'  | BERGEN      | INVALID, INVALID, INVALID, INVALID, INVALID, INVALID |
+  | BAARD| 'B', '.', '.', '.', '.'  | BERGEN      | Throws Exception|
   | BAARD| 'B', '.', '.', '.', '.'  | BONJE       | CORRECT, ABSENT, ABSENT, ABSENT ,ABSENT              |
   | BAARD| 'B', '.', '.', '.', '.'  | BARST       | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT            |
   | BAARD| 'B', 'A', '.', '.', '.'  | DRAAD       | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT           |
