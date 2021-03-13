@@ -5,13 +5,15 @@ import lombok.*;
 
 @Setter
 @Getter
+
 @NoArgsConstructor
 public class Progress {
+    private List<Feedback> feedbackList;
     private int score;
-   private List<String> hint;
+   private List<String> currentHint;
     private int roundNumber;
 
 
-
-
+    public Progress(List<Feedback> feedbackList, int score, List<String> giveHint) {
+    }
 }

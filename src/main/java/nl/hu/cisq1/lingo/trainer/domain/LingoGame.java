@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class LingoGame {
     private int score;
-    private final Progress progress = new Progress();
     private final List<Round> roundList = new ArrayList<>();
 
 
@@ -27,17 +26,32 @@ public class LingoGame {
 
     }
 
-    public void guess(String attempt) {
+    public Round getLastRound(){
         Round round;
         if (roundList.size() == 1) {
             round = roundList.get(0);
         } else {
             round = roundList.get(roundList.size() - 1);
         }
+        return round;
+    }
+
+
+    public void guess(String attempt) {
+        Round round = getLastRound();
         round.guess(attempt);
-        progress.setHint(round.giveHint());
+    }
+
+    public Progress  showProgress(){
+        Round round = getLastRound();
+        return new Progress(round.getFeedbackList(),score,round.giveHint());
 
     }
+
+
+
+
+
 
 
 }

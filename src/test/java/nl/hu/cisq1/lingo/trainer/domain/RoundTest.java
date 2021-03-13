@@ -39,8 +39,11 @@ class RoundTest {
         return Stream.of(
                 Arguments.of("WAADT", "WOORD", List.of(CORRECT, ABSENT, ABSENT, PRESENT, ABSENT)),
                 Arguments.of("WEERD", "WOORD", List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT)),
-                Arguments.of("PATAT", "PAARD", List.of(CORRECT, CORRECT, ABSENT, PRESENT, ABSENT))
-//                Arguments.of("ATTAA","PAARD",List.of(PRESENT,ABSENT,ABSENT,PRESENT,ABSENT))
+                Arguments.of("PATAT", "PAARD", List.of(CORRECT, CORRECT, ABSENT, PRESENT, ABSENT)),
+                Arguments.of("ATTAA","PAARD",List.of(PRESENT,ABSENT,ABSENT,PRESENT,ABSENT)),
+                Arguments.of("AARAT","WATER",List.of(ABSENT,CORRECT,PRESENT,ABSENT,PRESENT)), //eerste letter moet niet als present gemarkeerd worden.
+                Arguments.of("AAATT","PAARD",List.of(ABSENT,CORRECT,CORRECT,ABSENT,ABSENT))
+
 
 
         );

@@ -26,15 +26,16 @@ class LingoGameTest {
         assertThrows(CustomException.class, () -> lingoGame.startNewRound(wordToGuess));
     }
 
-    //TODO mockito gebruiken
-//    @Test
-//    @DisplayName("Exception is thrown because round is not finished"){
-//        String wordToGuess = "WOORD";
-//        LingoGame lingoGame = new LingoGame();
-//        assertThrows(CustomException.class, () -> lingoGame.startNewRound(wordToGuess));
-//
-//
-//    }
+
+    @Test
+    @DisplayName("Exception is thrown because round is not finished")
+    void roundNotfinished(){
+        String wordToGuess = "WOORD";
+        LingoGame lingoGame = new LingoGame();
+        assertThrows(CustomException.class, () -> lingoGame.startNewRound(wordToGuess));
+
+
+    }
 
 //    @Test
 //    @DisplayName("geeft raadpoging door aan huidige spelronde")

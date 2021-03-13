@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.ABSENT;
@@ -27,31 +27,41 @@ public class Round {
         List<Mark> marks = new ArrayList<>();
         String[] wordToGuessList = wordToGuess.split("");
         String[] lettersOfAttempt = attempt.split("");
+        TreeMap<Integer,String> treeMap= new TreeMap<>();
+        int count = 1;
 
-
-        List<String> lettersThatArePresent = new ArrayList<>();
-
-
-        if (wordToGuess.length() != attempt.length()) {
-            throw new CustomException("wordToGuess length does not match attempt length");
-
+        if (attempt.length() != wordToGuess.length()) {
+            throw new CustomException("attempt does not match size wordToGuess");
         } else {
+            for (int i = 0; i < wordToGuessList.length; i++) {
+                String letterInAttempt = lettersOfAttempt[i];
+                String letter = wordToGuessList[i];
 
-            for (int i = 0; i < wordToGuess.length(); i++) {
-                if (wordToGuessList[i].equals(lettersOfAttempt[i])) {
-                    marks.add(CORRECT);
-                    lettersThatArePresent.add(lettersOfAttempt[i]);
+                if (letter.equals(lettersOfAttempt[i] )) {
+                    marks.add(CORRECT); // eerst de goeie uit de lijst halen en dan checken of presenten er zijn.
 
-                } else if (Arrays.asList(wordToGuessList).contains(lettersOfAttempt[i])) {
-                    marks.add(PRESENT);
+                } else if (Arrays.asList(wordToGuessList).contains(lettersOfAttempt[i])  ) {
+                    treeMap.put(count++,lettersOfAttempt[i]);
+                    System.out.println(treeMap);
+                    System.out.println(wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count());
+
+
+                    if(treeMap.lastKey()  <=  wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count() ) {
+                        System.out.println("ok");
+                        marks.add(PRESENT);
+                    }else{
+                        marks.add(ABSENT);
+                    }
+
 
                 } else {
                     marks.add(ABSENT);
                 }
             }
+
         }
+        System.out.println(marks);
         feedbackList.add(new Feedback(attempt, marks));
-        giveHint();
         return marks;
     }
 
@@ -71,9 +81,6 @@ public class Round {
         }
         return hints;
     }
-
-
-
 
 
     public void guess(String attempt) {
