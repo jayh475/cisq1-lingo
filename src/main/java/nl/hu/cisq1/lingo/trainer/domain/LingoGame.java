@@ -12,28 +12,19 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
+
 public class LingoGame {
     private int score;
     private final List<Round> roundList = new ArrayList<>();
 
 
+
     public void startNewRound(String wordToGuess) {
-        if (roundList.stream().anyMatch(Round::checkIfRoundFinished) || roundList.isEmpty()) {
+        if (checkIfRoundCanStart()) {
             roundList.add(new Round(wordToGuess));
         } else {
             throw new CustomException("can't start new round, finish last round first");
         }
-
-    }
-
-    public Round getLastRound(){
-        Round round;
-        if (roundList.size() == 1) {
-            round = roundList.get(0);
-        } else {
-            round = roundList.get(roundList.size() - 1);
-        }
-        return round;
     }
 
 
@@ -42,16 +33,27 @@ public class LingoGame {
         round.guess(attempt);
     }
 
-    public Progress  showProgress(){
+    public Progress showProgress() {
         Round round = getLastRound();
-        return new Progress(round.getFeedbackList(),score,round.giveHint());
-
+        return new Progress(round.getFeedbackList(), score, round.giveHint());
     }
 
 
+    public Round getLastRound() {
+        Round round;
+        if (roundList.size() == 1) {
+            round = roundList.get(0);
+        } else if (!roundList.isEmpty()) {
+            round = roundList.get(roundList.size() - 1);
+        } else {
+            throw new CustomException("There is no round");
+        }
+        return round;
+    }
 
-
-
+    private boolean checkIfRoundCanStart() {
+        return roundList.stream().anyMatch(Round::checkIfRoundFinished) || roundList.isEmpty();
+    }
 
 
 }

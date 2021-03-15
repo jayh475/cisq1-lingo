@@ -5,6 +5,7 @@ import lombok.*;
 
 @Setter
 @Getter
+@ToString
 
 @NoArgsConstructor
 public class Progress {
@@ -14,6 +15,9 @@ public class Progress {
     private int roundNumber;
 
 
-    public Progress(List<Feedback> feedbackList, int score, List<String> giveHint) {
+    public Progress(List<Feedback> feedbackList, int score, List<String> currentHint) {
     }
+
+
+
 }

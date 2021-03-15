@@ -27,40 +27,40 @@ public class Round {
         List<Mark> marks = new ArrayList<>();
         String[] wordToGuessList = wordToGuess.split("");
         String[] lettersOfAttempt = attempt.split("");
-        TreeMap<Integer,String> treeMap= new TreeMap<>();
+        List<String> nonguessedLetters = new ArrayList<>();
+
         int count = 1;
 
         if (attempt.length() != wordToGuess.length()) {
             throw new CustomException("attempt does not match size wordToGuess");
         } else {
             for (int i = 0; i < wordToGuessList.length; i++) {
+                if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
+                    nonguessedLetters.add(wordToGuessList[i]);
+                }
+
+            }
+
+            for (int i = 0; i < wordToGuessList.length; i++) {
                 String letterInAttempt = lettersOfAttempt[i];
                 String letter = wordToGuessList[i];
 
-                if (letter.equals(lettersOfAttempt[i] )) {
-                    marks.add(CORRECT); // eerst de goeie uit de lijst halen en dan checken of presenten er zijn.
 
-                } else if (Arrays.asList(wordToGuessList).contains(lettersOfAttempt[i])  ) {
-                    treeMap.put(count++,lettersOfAttempt[i]);
-                    System.out.println(treeMap);
-                    System.out.println(wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count());
+                if (letter.equals(lettersOfAttempt[i])) {
+                    marks.add(CORRECT);
 
-
-                    if(treeMap.lastKey()  <=  wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count() ) {
-                        System.out.println("ok");
+                } else if (nonguessedLetters.contains(lettersOfAttempt[i])) {
+                    if (nonguessedLetters.stream().filter(ch -> ch.equals(String.valueOf(letterInAttempt.charAt(0)))).count() <= wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count()) {
                         marks.add(PRESENT);
-                    }else{
+                        nonguessedLetters.remove(letterInAttempt);
+                    } else {
                         marks.add(ABSENT);
                     }
-
-
                 } else {
                     marks.add(ABSENT);
                 }
             }
-
         }
-        System.out.println(marks);
         feedbackList.add(new Feedback(attempt, marks));
         return marks;
     }
