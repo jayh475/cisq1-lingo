@@ -22,16 +22,14 @@ public class Feedback {
     @Id
     @GeneratedValue
     private int id;
-
+    private String hint;
     private String attempt;
-
 
     @Enumerated
     @ElementCollection(targetClass = Mark.class)
-    private  List<Mark> marks;
+    private List<Mark> marks;
 
 
- String hint;//   private List<String> hint = new ArrayList<>();
 
     public Feedback(String attempt, List<Mark> marks) {
         if (attempt.length() != marks.size()) {
@@ -66,8 +64,8 @@ public class Feedback {
                 hints.add(".");
             }
         }
-        this.hint = String.join("",hints); // this.hint = hints
-            return  hint; //        return hints;
+        this.hint = String.join("", hints);
+        return hint;
 
     }
 
