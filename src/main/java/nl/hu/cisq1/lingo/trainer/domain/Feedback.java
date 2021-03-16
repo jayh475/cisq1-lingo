@@ -26,13 +26,12 @@ public class Feedback {
     private String attempt;
 
 
+    @Enumerated
+    @ElementCollection(targetClass = Mark.class)
+    private  List<Mark> marks;
 
-    @Enumerated(EnumType.STRING)
-    @OneToMany(mappedBy = "feedback")
-    private final static List<Mark> marks;
 
-
-    private List<String> hint = new ArrayList<>();
+ String hint;//   private List<String> hint = new ArrayList<>();
 
     public Feedback(String attempt, List<Mark> marks) {
         if (attempt.length() != marks.size()) {
@@ -50,9 +49,10 @@ public class Feedback {
     }
 
 
-    public List<String> giveHint(List<String> previousHint, String wordToGuess) {
+    public String giveHint(String previousHint, String wordToGuess) {
         String[] listOfLetters = wordToGuess.toUpperCase().split("");
         List<String> hints = new ArrayList<>();
+        String[] previousHintList = previousHint.toUpperCase().split("");
 
 
         for (int i = 0; i < listOfLetters.length; i++) {
@@ -60,18 +60,19 @@ public class Feedback {
                 hints.add(listOfLetters[i]);
 
             } else if (marks.get(i) != Mark.CORRECT) {
-                hints.add(previousHint.get(i));
+                hints.add(previousHintList[i]);
 
             } else {
                 hints.add(".");
             }
         }
-        this.hint = hints;
-        return hints;
+        this.hint = String.join("",hints); // this.hint = hints
+            return  hint; //        return hints;
+
     }
 
 
-    public List<String> getHint() {
+    public String getHint() {
         return hint;
     }
 }

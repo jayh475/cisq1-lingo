@@ -78,7 +78,7 @@ public class Round {
     }
 
 
-    public List<String> initializeFirstHint() {
+    public String  initializeFirstHint() {
         String[] wordToGuessList = this.wordToGuess.split("");
         List<String> hints = new ArrayList<>();
 
@@ -91,7 +91,8 @@ public class Round {
             }
 
         }
-        return hints;
+       return  String.join("",hints);
+
     }
 
 
@@ -106,7 +107,7 @@ public class Round {
 
     }
 
-    public List<String> giveHint() {
+    public String giveHint() {
         if (feedbackList.isEmpty()) {
             return initializeFirstHint();
         } else if (feedbackList.size() == 1) {

@@ -104,7 +104,7 @@ class RoundTest {
     @DisplayName("checks if initializingFirstHint gives a letter ")
     void InitializingFirstHint() {
         Round round = new Round("WOORD");
-        assertEquals(List.of("W", ".", ".", ".", "."), round.initializeFirstHint());
+        assertEquals("W...." , round.initializeFirstHint());
 
 
     }
@@ -124,14 +124,14 @@ class RoundTest {
     void giveHints() {
         Round round = new Round("WOORD");
         round.guess("WAARD");
-        assertEquals(List.of("W", ".", ".", "R", "D"), round.giveHint());
+        assertEquals("W..RD", round.giveHint());
     }
 
     @Test
     @DisplayName("check if first letter is given With the function giveHint")
     void giveFirstLetter() {
         Round round = new Round("WOORD");
-        assertEquals(List.of("W", ".", ".", ".", "."), round.giveHint());
+        assertEquals("W....", round.giveHint());
     }
 
     @Test
