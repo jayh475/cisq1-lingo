@@ -2,18 +2,36 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
+
+@Entity
+@Table(name = "feedback")
 public class Feedback {
+
+    @Id
+    @GeneratedValue
+    private int id;
+
     private String attempt;
-    private final List<Mark> marks;
+
+
+
+    @Enumerated(EnumType.STRING)
+    @OneToMany(mappedBy = "feedback")
+    private final static List<Mark> marks;
+
+
     private List<String> hint = new ArrayList<>();
 
     public Feedback(String attempt, List<Mark> marks) {

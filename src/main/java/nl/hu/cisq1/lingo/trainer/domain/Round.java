@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
+import javax.persistence.*;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,8 +14,19 @@ import static nl.hu.cisq1.lingo.trainer.domain.Mark.ABSENT;
 
 @Getter
 @Setter
+
+@Entity
+@Table(name = "round")
 public class Round {
+
+    @Id
+    @GeneratedValue
+    private int id;
+
+
     private final String wordToGuess;
+
+    @OneToMany(mappedBy = "round")
     private final List<Feedback> feedbackList = new ArrayList<>();
 
 

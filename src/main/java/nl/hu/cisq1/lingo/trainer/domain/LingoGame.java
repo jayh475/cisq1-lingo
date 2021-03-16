@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,21 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 
+@Entity
+@Table(name = "lingo_game")
 public class LingoGame {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    @Column
     private int score;
+
+
+    @OneToMany(mappedBy = "lingo_game")
     private final List<Round> roundList = new ArrayList<>();
+
 
 
 
@@ -54,6 +67,7 @@ public class LingoGame {
     private boolean checkIfRoundCanStart() {
         return roundList.stream().anyMatch(Round::checkIfRoundFinished) || roundList.isEmpty();
     }
+
 
 
 }
