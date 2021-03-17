@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Table(name = "progress")
 public class Progress {
 
+
     private List<Feedback> feedbackList;
     private int score;
    private String currentHint;

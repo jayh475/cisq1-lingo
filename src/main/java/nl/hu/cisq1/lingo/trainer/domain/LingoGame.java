@@ -12,7 +12,7 @@ import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor
+
 
 @Entity
 @Table(name = "lingo_game")
@@ -25,16 +25,22 @@ public class LingoGame {
     @Column
     private int score;
 
-
-    @OneToMany(mappedBy = "lingo_game")
+    @OneToMany
     private final List<Round> roundList = new ArrayList<>();
 
 
+    private GameStatus gameStatus;
+
+
+    public LingoGame() {
+        gameStatus = GameStatus.WAITING_FOR_ROUND;
+    }
 
 
     public void startNewRound(String wordToGuess) {
         if (checkIfRoundCanStart()) {
             roundList.add(new Round(wordToGuess));
+            gameStatus = GameStatus.PLAYING;
         } else {
             throw new CustomException("can't start new round, finish last round first");
         }
@@ -42,9 +48,28 @@ public class LingoGame {
 
 
     public void guess(String attempt) {
-        Round round = getLastRound();
-        round.guess(attempt);
+        if (gameStatus == GameStatus.PLAYING) {
+            Round round = getLastRound();
+            round.guess(attempt);
+            if (round.isWon()) {
+                calculateScore(round);
+                gameStatus = GameStatus.WAITING_FOR_ROUND;
+            }
+
+        } else {
+            throw new CustomException("can not guess");
+
+        }
+
+
     }
+
+    public void calculateScore(Round round) {
+        score = 5 * (5 - round.getFeedbackList().size()) + 5;
+
+
+    }
+
 
     public Progress showProgress() {
         Round round = getLastRound();
@@ -65,9 +90,8 @@ public class LingoGame {
     }
 
     private boolean checkIfRoundCanStart() {
-        return roundList.stream().anyMatch(Round::checkIfRoundFinished) || roundList.isEmpty();
+        return (roundList.stream().allMatch(Round::checkIfRoundFinished) && gameStatus == GameStatus.WAITING_FOR_ROUND) || roundList.isEmpty();
     }
-
 
 
 }

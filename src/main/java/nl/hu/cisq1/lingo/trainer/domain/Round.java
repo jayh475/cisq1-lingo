@@ -1,19 +1,21 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.ABSENT;
 
 @Getter
 @Setter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "round")
@@ -22,11 +24,9 @@ public class Round {
     @Id
     @GeneratedValue
     private int id;
+    private String wordToGuess;
 
-
-    private final String wordToGuess;
-
-    @OneToMany(mappedBy = "round")
+    @OneToMany
     private final List<Feedback> feedbackList = new ArrayList<>();
 
 
@@ -39,16 +39,15 @@ public class Round {
         List<Mark> marks = new ArrayList<>();
         String[] wordToGuessList = wordToGuess.split("");
         String[] lettersOfAttempt = attempt.split("");
-        List<String> nonguessedLetters = new ArrayList<>();
+        List<String> nonGuessedLetters = new ArrayList<>();
 
-        int count = 1;
 
         if (attempt.length() != wordToGuess.length()) {
             throw new CustomException("attempt does not match size wordToGuess");
         } else {
             for (int i = 0; i < wordToGuessList.length; i++) {
                 if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
-                    nonguessedLetters.add(wordToGuessList[i]);
+                    nonGuessedLetters.add(wordToGuessList[i]);
                 }
 
             }
@@ -61,10 +60,10 @@ public class Round {
                 if (letter.equals(lettersOfAttempt[i])) {
                     marks.add(CORRECT);
 
-                } else if (nonguessedLetters.contains(lettersOfAttempt[i])) {
-                    if (nonguessedLetters.stream().filter(ch -> ch.equals(String.valueOf(letterInAttempt.charAt(0)))).count() <= wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count()) {
+                } else if (nonGuessedLetters.contains(lettersOfAttempt[i])) {
+                    if (nonGuessedLetters.stream().filter(ch -> ch.equals(String.valueOf(letterInAttempt.charAt(0)))).count() <= wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count()) {
                         marks.add(PRESENT);
-                        nonguessedLetters.remove(letterInAttempt);
+                        nonGuessedLetters.remove(letterInAttempt);
                     } else {
                         marks.add(ABSENT);
                     }
@@ -78,7 +77,7 @@ public class Round {
     }
 
 
-    public String  initializeFirstHint() {
+    public String initializeFirstHint() {
         String[] wordToGuessList = this.wordToGuess.split("");
         List<String> hints = new ArrayList<>();
 
@@ -91,7 +90,7 @@ public class Round {
             }
 
         }
-       return  String.join("",hints);
+        return String.join("", hints);
 
     }
 
@@ -101,10 +100,7 @@ public class Round {
             throw new CustomException("cannot guess because round is finished");
         } else {
             generateMarks(attempt);
-
         }
-
-
     }
 
     public String giveHint() {
@@ -122,6 +118,10 @@ public class Round {
 
     public boolean checkIfRoundFinished() {
         return feedbackList.size() >= 5 || feedbackList.stream().anyMatch(Feedback::isWordGuessed);
+    }
+
+    public boolean isWon(){
+        return feedbackList.stream().anyMatch(Feedback::isWordGuessed);
     }
 
 

@@ -63,7 +63,7 @@ class FeedbackTest {
 
 //        R: assert
         return Stream.of(
-                Arguments.of("WOONT", "W....", woord, List.of(CORRECT, CORRECT, PRESENT, PRESENT, ABSENT), "WO...")
+                Arguments.of("WOONT", "W....", woord, List.of(CORRECT, CORRECT, CORRECT,ABSENT, ABSENT), "WOO..")
 //                Arguments.of("WOERD", List.of("W", "O", ".", ".", "."), woord, List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT), List.of("W", "O", ".", "R", "D")),
 //                Arguments.of("WOORD", List.of("W", "O", ".", "R", "D"), woord, List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), List.of("W", "O", "O", "R", "D"))
 

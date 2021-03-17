@@ -15,23 +15,24 @@ class LingoGameTest {
     void newRound() {
         String wordToGuess = "WOORD";
         LingoGame lingoGame = new LingoGame();
+        lingoGame.setGameStatus(GameStatus.WAITING_FOR_ROUND);
         assertDoesNotThrow(() -> lingoGame.startNewRound(wordToGuess));
     }
 
     @Test
-    @DisplayName("Round could be started, because last round was finished")
+    @DisplayName("Round could be started, because last round was finished and status was waiting for round")
     void roundNotfinished() {
         String wordToGuess = "WOORD";
         LingoGame lingoGame = new LingoGame();
+        lingoGame.setGameStatus(GameStatus.WAITING_FOR_ROUND);
         lingoGame.getRoundList().add(new Round(wordToGuess));
         lingoGame.getRoundList().get(0).guess("WOORD");
         assertDoesNotThrow(() -> lingoGame.startNewRound(wordToGuess));
     }
 
 //    falende test voor start new Round
-
     @Test
-    @DisplayName("Exception is thrown because roundlist is not empty")
+    @DisplayName("Exception is thrown because roundlist is not empty and the round was not finished")
     void newRoundException() {
         String wordToGuess = "WOORD";
         LingoGame lingoGame = new LingoGame();
@@ -41,8 +42,8 @@ class LingoGameTest {
 
     //    slagende tests voor guess
     @Test
-    @DisplayName("Guess")
-    void guess() {
+    @DisplayName("the guess was asserted in the in the round ")
+    void guessInRound() {
         LingoGame lingoGame = new LingoGame();
         lingoGame.startNewRound("WOORD");
         lingoGame.guess("HOORD");
@@ -53,10 +54,24 @@ class LingoGameTest {
     @Test
     @DisplayName("Can't guess because there is no round")
     void noRoundGuess() {
-
         LingoGame lingoGame = new LingoGame();
         assertThrows(CustomException.class, () -> lingoGame.guess("WOORD"));
     }
+
+    @Test
+    @DisplayName("Can't guess because feedback list contains 5 attempts")
+    void exceededAttempts() {
+        LingoGame lingoGame = new LingoGame();
+        lingoGame.startNewRound("WOORD");
+        lingoGame.guess("Jarig");
+        lingoGame.guess("waard");
+        lingoGame.guess("weert");
+        lingoGame.guess("appen");
+        lingoGame.guess("atten");
+        assertThrows(CustomException.class, ()-> lingoGame.guess("atten"));
+    }
+
+
 
     //    slagende tests voor show progress
     @Test
