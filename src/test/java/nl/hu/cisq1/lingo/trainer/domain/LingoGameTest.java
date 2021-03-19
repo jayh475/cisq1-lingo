@@ -9,34 +9,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LingoGameTest {
 
-    //    slagende tests start new Round
-    @Test
-    @DisplayName("Start new round ")
-    void newRound() {
-        String wordToGuess = "WOORD";
-        LingoGame lingoGame = new LingoGame();
-        lingoGame.setGameStatus(GameStatus.WAITING_FOR_ROUND);
-        assertDoesNotThrow(() -> lingoGame.startNewRound(wordToGuess));
-    }
 
     @Test
-    @DisplayName("Round could be started, because last round was finished and status was waiting for round")
+    @DisplayName("start new game and get first hint without attempt")
+    void newLingoGame() {
+        String wordToGuess = "WOORD";
+        LingoGame lingoGame = new LingoGame(wordToGuess);
+        assertEquals("W....", lingoGame.giveHint());
+
+    }
+
+    //    slagende tests start new Round
+
+    @Test
+    @DisplayName("Round could  be started, because last round was finished and status was waiting for round")
     void roundNotfinished() {
         String wordToGuess = "WOORD";
-        LingoGame lingoGame = new LingoGame();
-        lingoGame.setGameStatus(GameStatus.WAITING_FOR_ROUND);
-        lingoGame.getRoundList().add(new Round(wordToGuess));
-        lingoGame.getRoundList().get(0).guess("WOORD");
+        LingoGame lingoGame = new LingoGame(wordToGuess);
+        lingoGame.guess(wordToGuess);
         assertDoesNotThrow(() -> lingoGame.startNewRound(wordToGuess));
     }
 
-//    falende test voor start new Round
+    //    falende test voor start new Round
     @Test
-    @DisplayName("Exception is thrown because roundlist is not empty and the round was not finished")
+    @DisplayName("Exception is thrown because round was not finished")
     void newRoundException() {
         String wordToGuess = "WOORD";
-        LingoGame lingoGame = new LingoGame();
-        lingoGame.getRoundList().add(new Round(wordToGuess));
+        LingoGame lingoGame = new LingoGame(wordToGuess);
         assertThrows(CustomException.class, () -> lingoGame.startNewRound(wordToGuess));
     }
 
@@ -44,11 +43,17 @@ class LingoGameTest {
     @Test
     @DisplayName("the guess was asserted in the in the round ")
     void guessInRound() {
-        LingoGame lingoGame = new LingoGame();
-        lingoGame.startNewRound("WOORD");
+        LingoGame lingoGame = new LingoGame("WOORD");
         lingoGame.guess("HOORD");
         assertEquals("HOORD", lingoGame.getRoundList().get(0).getFeedbackList().get(0).getAttempt());
     }
+
+    @Test
+    @DisplayName("give hint when guess")
+    void giveHint() {
+
+    }
+
 
     //falende tests for Guess
     @Test
@@ -61,54 +66,37 @@ class LingoGameTest {
     @Test
     @DisplayName("Can't guess because feedback list contains 5 attempts")
     void exceededAttempts() {
-        LingoGame lingoGame = new LingoGame();
-        lingoGame.startNewRound("WOORD");
+        LingoGame lingoGame = new LingoGame("WOORD");
         lingoGame.guess("Jarig");
         lingoGame.guess("waard");
         lingoGame.guess("weert");
         lingoGame.guess("appen");
         lingoGame.guess("atten");
-        assertThrows(CustomException.class, ()-> lingoGame.guess("atten"));
+        assertThrows(CustomException.class, () -> lingoGame.guess("atten"));
     }
-
 
 
     //    slagende tests voor show progress
     @Test
     @DisplayName("Show progress")
     void showProgress() {
-        LingoGame lingoGame = new LingoGame();
-        lingoGame.startNewRound("WOORD");
-        System.out.println(lingoGame.showProgress().toString());
+        LingoGame lingoGame = new LingoGame("WOORD");
+        Progress progress = new Progress(0, "W....", 1);
+        assertEquals(lingoGame.showProgress(), progress);
     }
+
+    @Test
+    @DisplayName("Show progress after a guess")
+    void progressAfterGuess() {
+        LingoGame lingoGame = new LingoGame("WOORD");
+
+        lingoGame.guess("WOERD");
+        Progress progress = new Progress(0, "WO.RD", 1);
+        assertEquals(lingoGame.showProgress(), progress);
+    }
+
 
 //    falende tests voor show progress
-//    @Test
-//    @DisplayName("progress can't be null")
-//    void s
-
-
-    //slagende tests voor get last round
-    @Test
-    @DisplayName("Get last round")
-    void getLastRound() {
-        LingoGame lingoGame = new LingoGame();
-        lingoGame.getRoundList().add(new Round("WOORD"));
-        assertEquals(lingoGame.getRoundList().get(0), lingoGame.getLastRound());
-    }
-
-    @Test
-    @DisplayName(" returned round ook  als er meer dan 1 round in de lijst zit")
-    void moreThanOneRound() {
-        LingoGame lingoGame = new LingoGame();
-        for (int i = 0; i < 2; i++) {
-            lingoGame.startNewRound("WOORD");
-            lingoGame.guess("WOORD");
-        }
-        assertEquals(lingoGame.getRoundList().get(1), lingoGame.getLastRound());
-
-
-    }
 
 
 }

@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@NoArgsConstructor
 
 
 @Entity
@@ -22,18 +25,20 @@ public class LingoGame {
     @GeneratedValue
     private Integer id;
 
-    @Column
     private int score;
 
     @OneToMany
+
+    @Cascade(CascadeType.ALL)
     private final List<Round> roundList = new ArrayList<>();
 
-
+    @Enumerated(EnumType.STRING)
     private GameStatus gameStatus;
 
 
-    public LingoGame() {
-        gameStatus = GameStatus.WAITING_FOR_ROUND;
+    public LingoGame(String wordToGuess) {
+        roundList.add(new Round(wordToGuess));
+        gameStatus = GameStatus.PLAYING;
     }
 
 
@@ -52,7 +57,7 @@ public class LingoGame {
             Round round = getLastRound();
             round.guess(attempt);
             if (round.isWon()) {
-                calculateScore(round);
+                score += round.calculateScore();
                 gameStatus = GameStatus.WAITING_FOR_ROUND;
             }
 
@@ -64,16 +69,22 @@ public class LingoGame {
 
     }
 
-    public void calculateScore(Round round) {
-        score = 5 * (5 - round.getFeedbackList().size()) + 5;
 
-
+    public Progress showProgress() {
+        return new Progress(score, giveHint(), roundList.size());
     }
 
 
-    public Progress showProgress() {
-        Round round = getLastRound();
-        return new Progress(round.getFeedbackList(), score, round.giveHint());
+    public int provideNextWordLength() {
+        if (getLastRound().getCurrentWorthLength() != 7) {
+            return getLastRound().getCurrentWorthLength() + 1;
+        } else {
+            return 5;
+        }
+    }
+
+    public String giveHint() {
+        return getLastRound().giveHint();
     }
 
 
@@ -81,16 +92,15 @@ public class LingoGame {
         Round round;
         if (roundList.size() == 1) {
             round = roundList.get(0);
-        } else if (!roundList.isEmpty()) {
-            round = roundList.get(roundList.size() - 1);
         } else {
-            throw new CustomException("There is no round");
+            round =roundList.get(roundList.size()-1);
+
         }
         return round;
     }
 
     private boolean checkIfRoundCanStart() {
-        return (roundList.stream().allMatch(Round::checkIfRoundFinished) && gameStatus == GameStatus.WAITING_FOR_ROUND) || roundList.isEmpty();
+        return (roundList.stream().allMatch(Round::checkIfRoundFinished) && gameStatus == GameStatus.WAITING_FOR_ROUND);
     }
 
 

@@ -39,6 +39,7 @@ public class Feedback {
         this.marks = marks;
 
 
+
     }
 
     public boolean isWordGuessed() {
@@ -64,6 +65,7 @@ public class Feedback {
                 hints.add(".");
             }
         }
+
         this.hint = String.join("", hints);
         return hint;
 

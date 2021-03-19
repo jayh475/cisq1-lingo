@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
+
 import java.util.*;
 
 
@@ -27,6 +29,7 @@ public class Round {
     private String wordToGuess;
 
     @OneToMany
+    @Cascade(CascadeType.ALL)
     private final List<Feedback> feedbackList = new ArrayList<>();
 
 
@@ -37,8 +40,8 @@ public class Round {
 
     public List<Mark> generateMarks(String attempt) {
         List<Mark> marks = new ArrayList<>();
-        String[] wordToGuessList = wordToGuess.split("");
-        String[] lettersOfAttempt = attempt.split("");
+        String[] wordToGuessList = wordToGuess.toLowerCase().split("");
+        String[] lettersOfAttempt = attempt.toLowerCase().split("");
         List<String> nonGuessedLetters = new ArrayList<>();
 
 
@@ -51,7 +54,6 @@ public class Round {
                 }
 
             }
-
             for (int i = 0; i < wordToGuessList.length; i++) {
                 String letterInAttempt = lettersOfAttempt[i];
                 String letter = wordToGuessList[i];
@@ -73,8 +75,10 @@ public class Round {
             }
         }
         feedbackList.add(new Feedback(attempt, marks));
+        giveHint();
         return marks;
     }
+
 
 
     public String initializeFirstHint() {
@@ -103,24 +107,39 @@ public class Round {
         }
     }
 
+    public int calculateScore() {
+        return 5 * (5 - getAttemptCount()) + 5;
+
+    }
+
+    private int getAttemptCount() {
+        return feedbackList.size();
+    }
+
+
     public String giveHint() {
         if (feedbackList.isEmpty()) {
             return initializeFirstHint();
-        } else if (feedbackList.size() == 1) {
-            return feedbackList.get(0).giveHint(initializeFirstHint(), wordToGuess);
+        } else if (getAttemptCount() == 1) {
+            Feedback feedback = feedbackList.get(0);
+            feedback.setHint(feedback.giveHint(initializeFirstHint(), wordToGuess));
+            return feedback.getHint();
 
         } else {
-            return feedbackList.get(feedbackList.size() - 1).giveHint(feedbackList.get(feedbackList.size() - 2).getHint(), wordToGuess);
+            Feedback feedback = feedbackList.get(getAttemptCount()-1);
+            feedback.setHint(feedback.giveHint(feedbackList.get(getAttemptCount() - 2).getHint(), wordToGuess));
+
+            return feedback.getHint();
 
         }
     }
 
 
     public boolean checkIfRoundFinished() {
-        return feedbackList.size() >= 5 || feedbackList.stream().anyMatch(Feedback::isWordGuessed);
+        return getAttemptCount() >= 5 || feedbackList.stream().anyMatch(Feedback::isWordGuessed);
     }
 
-    public boolean isWon(){
+    public boolean isWon() {
         return feedbackList.stream().anyMatch(Feedback::isWordGuessed);
     }
 

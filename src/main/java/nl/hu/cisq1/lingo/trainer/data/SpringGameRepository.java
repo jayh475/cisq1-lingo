@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface SpringGameRepository extends JpaRepository<LingoGame,Long> {
-    Optional<LingoGame> findLingoGamesById(int id);
+
+    LingoGame findLingoGameById(int id);
 
 }

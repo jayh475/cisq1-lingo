@@ -2,9 +2,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,16 +21,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoundTest {
 
 
+
+
+
     @MethodSource("provideMarkExamples")
     @DisplayName("give right marks")
     @ParameterizedTest
     void giveMarks(String attempt, String wordToGuess, List<Mark> marks) {
         Round round = new Round(wordToGuess);
 
+
         assertEquals(marks, round.generateMarks(attempt));
 
     }
-
 
     static Stream<Arguments> provideMarkExamples() {
 
@@ -48,6 +49,33 @@ class RoundTest {
 
         );
     }
+
+    @MethodSource("provideRightFeedback")
+    @DisplayName("Test if generate marks creates the right hints")
+    @ParameterizedTest
+    void generateRightFeedback(String attempt, String wordToGuess,String nextHint){
+        Round round = new Round(wordToGuess);
+        round.generateMarks(attempt);;
+        assertEquals(round.giveHint(),nextHint);
+
+
+
+    }
+    static Stream<Arguments> provideRightFeedback() {
+
+        return Stream.of(
+                Arguments.of("WAADT", "WOORD","W...."),
+                Arguments.of("WEERD", "WOORD","W..RD"),
+                Arguments.of("PATAT", "PAARD","PA..."),
+                Arguments.of("ATTAA","PAARD","P...."),
+                Arguments.of("AARAT","WATER","WA..."),
+                Arguments.of("AAATT","PAARD","PAA..")
+
+
+
+        );
+    }
+
 
 
     @Test
@@ -140,6 +168,8 @@ class RoundTest {
         Round round = new Round("WOORD");
         assertTrue(round.getFeedbackList().isEmpty());
     }
+
+
 
 
 }
