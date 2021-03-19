@@ -70,6 +70,14 @@ class FeedbackTest {
         );
 
     }
+    @Test
+    @DisplayName("if use prev hint to make new hint")
+    void newHint(){
+
+//        Feedback feedback = new Feedback()
+//        assertEquals();
+
+    }
 
 
     @Test
