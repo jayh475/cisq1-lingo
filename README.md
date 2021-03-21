@@ -1,5 +1,12 @@
 # CISQ1: Lingo Trainer
 
+## installing database in docker 
+```
+docker-compose up  
+```
+
+
+
 ## Project jacoco testing 
 ```
 mvnw verify 

@@ -21,6 +21,7 @@ import java.util.List;
 @Table(name = "lingo_game")
 public class LingoGame {
 
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -71,7 +72,7 @@ public class LingoGame {
 
 
     public Progress showProgress() {
-        return new Progress(score, giveHint(), roundList.size());
+        return new Progress(gameStatus ,score, giveHint(), roundList.size(), getLastRound().getFeedbackList());
     }
 
 

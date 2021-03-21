@@ -45,25 +45,31 @@ public class Round {
         List<String> nonGuessedLetters = new ArrayList<>();
 
 
+//        checken of lengte woord net zo lang is als lengte attempt
         if (attempt.length() != wordToGuess.length()) {
             throw new CustomException("attempt does not match size wordToGuess");
-        } else {
+        }
+
+//
+//         maakt een lijst met alleen maar non guessed letters
+        else {
             for (int i = 0; i < wordToGuessList.length; i++) {
                 if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
                     nonGuessedLetters.add(wordToGuessList[i]);
                 }
 
             }
+            System.out.println("non guessed letters:" + nonGuessedLetters);
+
             for (int i = 0; i < wordToGuessList.length; i++) {
                 String letterInAttempt = lettersOfAttempt[i];
                 String letter = wordToGuessList[i];
-
-
+//
                 if (letter.equals(lettersOfAttempt[i])) {
                     marks.add(CORRECT);
 
                 } else if (nonGuessedLetters.contains(lettersOfAttempt[i])) {
-                    if (nonGuessedLetters.stream().filter(ch -> ch.equals(String.valueOf(letterInAttempt.charAt(0)))).count() <= wordToGuess.chars().filter(ch -> ch == letterInAttempt.charAt(0)).count()) {
+                    if (nonGuessedLetters.stream().filter(ch -> ch.equals(String.valueOf(letterInAttempt.charAt(0)))).count() <= wordToGuess.toLowerCase().chars().filter(ch -> ch == letterInAttempt.charAt(0)).count()) {
                         marks.add(PRESENT);
                         nonGuessedLetters.remove(letterInAttempt);
                     } else {
@@ -75,6 +81,7 @@ public class Round {
             }
         }
         feedbackList.add(new Feedback(attempt, marks));
+
         giveHint();
         return marks;
     }

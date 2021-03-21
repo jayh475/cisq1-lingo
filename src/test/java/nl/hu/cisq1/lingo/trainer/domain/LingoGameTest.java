@@ -5,6 +5,9 @@ import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LingoGameTest {
@@ -76,12 +79,13 @@ class LingoGameTest {
     }
 
 
-    //    slagende tests voor show progress
+//        slagende tests voor show progress
     @Test
     @DisplayName("Show progress")
     void showProgress() {
         LingoGame lingoGame = new LingoGame("WOORD");
-        Progress progress = new Progress(0, "W....", 1);
+        List<Feedback> feedbackList = List.of();
+        Progress progress = new Progress(GameStatus.PLAYING,0, "W....", 1, ArrayList<Feedback>);
         assertEquals(lingoGame.showProgress(), progress);
     }
 

@@ -16,15 +16,18 @@ import javax.persistence.*;
 
 public class Progress {
 
-
     private int score;
     private String currentHint;
     private int roundNumber;
+    private GameStatus gameStatus;
+    private List<Feedback> feedbackList;
 
-    public Progress(int score, String currentHint, int roundNumber) {
+    public Progress(GameStatus gameStatus,int score, String currentHint, int roundNumber,List<Feedback> feedbacks) {
+        this.gameStatus = gameStatus;
         this.score = score;
         this.currentHint = currentHint;
         this.roundNumber = roundNumber;
+        this.feedbackList = feedbacks;
     }
 
 

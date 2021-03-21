@@ -23,7 +23,6 @@ public class LingoGameService {
     public LingoGame starGame() {
         LingoGame lingoGame = new LingoGame(wordService.provideRandomWord(5));
         gameRepository.save(lingoGame);
-
         return lingoGame;
     }
 

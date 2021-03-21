@@ -30,7 +30,6 @@ class RoundTest {
     void giveMarks(String attempt, String wordToGuess, List<Mark> marks) {
         Round round = new Round(wordToGuess);
 
-
         assertEquals(marks, round.generateMarks(attempt));
 
     }
@@ -44,8 +43,6 @@ class RoundTest {
                 Arguments.of("ATTAA","PAARD",List.of(PRESENT,ABSENT,ABSENT,PRESENT,ABSENT)),
                 Arguments.of("AARAT","WATER",List.of(ABSENT,CORRECT,PRESENT,ABSENT,PRESENT)),
                 Arguments.of("AAATT","PAARD",List.of(ABSENT,CORRECT,CORRECT,ABSENT,ABSENT))
-
-
 
         );
     }
