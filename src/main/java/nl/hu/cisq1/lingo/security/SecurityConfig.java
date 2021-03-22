@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public final static String LOGIN_PATH = "/login";
     public final static String REGISTER_PATH = "/register";
     public final static String LINGOGAME_PATH = "/lingoGame/**";
+    public final static String WORD = "/words/**";
 
     @Value("${security.jwt.secret}")
     private String jwtSecret;
@@ -39,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, LINGOGAME_PATH).permitAll()
                 .antMatchers(HttpMethod.GET, LINGOGAME_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, LOGIN_PATH).permitAll()
+                .antMatchers(HttpMethod.GET,WORD).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(
