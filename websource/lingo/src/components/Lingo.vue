@@ -50,6 +50,7 @@ export default {
       axios.post(`${this.$restip}/lingoGame/start`).then(function (response) {
         this.lingoGameData = response.data;
         console.log(response);
+      //  ja
 
 
       })
