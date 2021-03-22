@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/lingoGame")
 public class TrainerController {
-    public final String host = "http://localhost:8082";
     private final LingoGameService lingoGameService;
 
     public TrainerController(LingoGameService lingoGameService) {
@@ -27,7 +26,7 @@ public class TrainerController {
     }
 
 
-    @CrossOrigin(origins = host)
+
     @PostMapping("/start")
     public LingoGameDto startGame() {
         LingoGame lingoGame = this.lingoGameService.starGame();
@@ -35,7 +34,7 @@ public class TrainerController {
         return new LingoGameDto(progress.getGameStatus(),progress.getScore(), progress.getCurrentHint(), progress.getRoundNumber(), lingoGame.getId(),progress.getFeedbackList());
     }
 
-    @CrossOrigin(origins = host)
+
     @PostMapping("/{id}/guess")
     public LingoGameDto guess(@PathVariable(name ="id") Integer gameId, @RequestBody AttemptDto attemptDto){
         LingoGame lingoGame = lingoGameService.getGame(gameId);
