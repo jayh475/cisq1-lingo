@@ -29,7 +29,7 @@ public class TrainerController {
 
     @PostMapping("/start")
     public LingoGameDto startGame() {
-        LingoGame lingoGame = this.lingoGameService.starGame();
+        LingoGame lingoGame = this.lingoGameService.startGame();
         Progress progress = lingoGame.showProgress();
         return new LingoGameDto(progress.getGameStatus(),progress.getScore(), progress.getCurrentHint(), progress.getRoundNumber(), lingoGame.getId(),progress.getFeedbackList());
     }

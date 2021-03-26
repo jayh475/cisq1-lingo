@@ -1,13 +1,23 @@
 <template>
 
-  <div id="lingo">
-    <div v-bind:key="row" v-for="row in splitedList">
-      <p>{{ row.name }}</p>
-      <div v-bind:key="code" v-for="code in row.codes">
-        <p>{{ code }}</p>
-      </div>
+  <div>
+
+    <button  v-on:click="startGame">Start game</button>
+    <P>{{ lingoGameData }}</p>
+
+    <input class="form-control" v-model="attempt"  name="guess"  placeholder="guess" >
+    <button class="btn" v-on:click="makeGuess" >guess</button>
+    <p>Guess is:{{attempt}}</p>
+    <p> game Id = {{this.gameId}}</p>
+
+    <div v-if="lingoGameData">
+    <div v-for="feedback in lingoGameData.feedbacks" :key="feedback" class="row">
+      <div :class="getClassForLetter(feedback.marks[x])" v-for="(letter,x) in feedback.attempt.split('')" :key="letter">{{letter}}</div>
     </div>
-    <button v-on:click="startGame">Start Game</button>
+    </div>
+
+
+
 
   </div>
 
@@ -17,51 +27,58 @@
 
 <script>
 import axios from 'axios';
+// import lo from 'lodash';
 
 
 export default {
   name: "Lingo",
+
   data() {
     return {
-      lingoGameData: {},
-      list: [
-        {
-          'name': 'Lingo',
-          'codes': '111+222+333'
-        },
-
-      ]
-    }
-  },
-  computed: {
-    splitedList() {
-      let newArr = [...this.list]
-      newArr.map(el => {
-        return el.codes = el.codes.split('+')
-      })
-      return newArr
+      lingoGameData: null,
+      attempt: null,
+      gameId: null
     }
   },
   methods: {
-    startGame: function () {
+
+
+    startGame() {
       alert("does this work?")
 
 
-      axios.post(`${this.$restip}/lingoGame/start`).then(function (response) {
+      axios.post(`${this.$restip}/lingoGame/start`).then((response) => {
         this.lingoGameData = response.data;
-        console.log(response);
-      //  ja
+        this.gameId = response.data.gameId;
+        console.log(response.data);
 
 
       })
-          .catch(function () {
-            alert("dpet het niet")
-          });
+          .catch(error => console.log(error))
 
+    },
+
+
+    makeGuess() {
+      console.log(this.attempt);
+      axios.post(`${this.$restip}/lingoGame/${this.gameId}/guess`, {attempt: this.attempt}
+
+      ).then((response) => {
+        this.lingoGameData = response.data
+        console.log(response);
+      })
+    },
+    getClassForLetter(mark){
+      if(mark == "CORRECT"){
+        return "box box-correct"
+      }
+      if(mark == "ABSENT"){
+        return "box box-absent"
+      }
 
     }
-  }
 
+  }
 
 }
 
@@ -69,6 +86,27 @@ export default {
 
 
 <style>
+
+
+.form-control {
+  display: inline-block;
+}
+
+.btn {
+  display: inline-block;
+}
+.row{
+  display: flex;
+}
+
+.box{
+  border: solid;
+}
+
+.box-correct{
+  background: green;
+}
+
 
 
 </style>

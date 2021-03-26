@@ -79,28 +79,42 @@ class LingoGameTest {
     }
 
 
+
 //        slagende tests voor show progress
-//    @Test
-//    @DisplayName("Show progress")
-//    void showProgress() {
-//        LingoGame lingoGame = new LingoGame("WOORD");
-//        List<Feedback> feedbackList = List.of();
-//        Progress progress = new Progress(GameStatus.PLAYING,0, "W....", 1, ArrayList<Feedback>);
-//        assertEquals(lingoGame.showProgress(), progress);
-//    }
-
-//    @Test
-//    @DisplayName("Show progress after a guess")
-//    void progressAfterGuess() {
-//        LingoGame lingoGame = new LingoGame("WOORD");
-//
-//        lingoGame.guess("WOERD");
-//        Progress progress = new Progress(0, "WO.RD", 1);
-//        assertEquals(lingoGame.showProgress(), progress);
-//    }
+    @Test
+    @DisplayName("Show progress without attempt")
+    void showProgress() {
+        LingoGame lingoGame = new LingoGame("WOORD");
+        List<Feedback> feedbackList = new ArrayList<>();
+        Progress progress = new Progress(GameStatus.PLAYING,0, "W....", 1, feedbackList);
+        assertEquals(lingoGame.showProgress(), progress);
+    }
 
 
-//    falende tests voor show progress
+
+    @Test
+    @DisplayName("provide length after highest length has been reached")
+    void firstWordLength(){
+        LingoGame lingoGame = new LingoGame("WOORDEN");
+
+        assertEquals(5,lingoGame.provideNextWordLength());
+
+    }
+
+
+    @Test
+    @DisplayName("provide next word length when round finishes")
+    void nextWordLength(){
+        LingoGame lingoGame = new LingoGame("WOORD");
+        lingoGame.guess("WOORD");
+        lingoGame.startNewRound("douch");
+        assertEquals(6,lingoGame.provideNextWordLength());
+
+    }
+
+
+
+
 
 
 }

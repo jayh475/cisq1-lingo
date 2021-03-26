@@ -20,7 +20,7 @@ public class LingoGameService {
         this.wordService = wordService;
     }
 
-    public LingoGame starGame() {
+    public LingoGame startGame() {
         LingoGame lingoGame = new LingoGame(wordService.provideRandomWord(5));
         gameRepository.save(lingoGame);
         return lingoGame;

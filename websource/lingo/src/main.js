@@ -36,7 +36,7 @@ Vue.use(VueMaterial);
 
 Vue.config.productionTip = false
 
-// Vue.prototype.$restip = ''
+Vue.prototype.$restip = ''
 Vue.prototype.$restip = 'http://localhost:8080'
 
 const store = new Vuex.Store({
@@ -61,3 +61,5 @@ new Vue({
   router,
   store
 }).$mount('#app')
+
+

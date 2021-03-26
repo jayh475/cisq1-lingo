@@ -28,9 +28,11 @@ public class Round {
     private int id;
     private String wordToGuess;
 
+
     @OneToMany
     @Cascade(CascadeType.ALL)
     private final List<Feedback> feedbackList = new ArrayList<>();
+
 
 
     public Round(String wordToGuess) {
@@ -44,14 +46,12 @@ public class Round {
         String[] lettersOfAttempt = attempt.toLowerCase().split("");
         List<String> nonGuessedLetters = new ArrayList<>();
 
-
-//        checken of lengte woord net zo lang is als lengte attempt
         if (attempt.length() != wordToGuess.length()) {
             throw new CustomException("attempt does not match size wordToGuess");
         }
 
-//
-//         maakt een lijst met alleen maar non guessed letters
+
+
         else {
             for (int i = 0; i < wordToGuessList.length; i++) {
                 if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
@@ -59,12 +59,11 @@ public class Round {
                 }
 
             }
-            System.out.println("non guessed letters:" + nonGuessedLetters);
 
             for (int i = 0; i < wordToGuessList.length; i++) {
                 String letterInAttempt = lettersOfAttempt[i];
                 String letter = wordToGuessList[i];
-//
+
                 if (letter.equals(lettersOfAttempt[i])) {
                     marks.add(CORRECT);
 

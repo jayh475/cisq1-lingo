@@ -33,6 +33,8 @@ class FeedbackTest {
 
     }
 
+
+
     @Test
     @DisplayName("word is not guessed if not all letters are correct")
     void wordIsNotGuessed() {
@@ -63,21 +65,27 @@ class FeedbackTest {
 
 //        R: assert
         return Stream.of(
-                Arguments.of("WOONT", "W....", woord, List.of(CORRECT, CORRECT, CORRECT, ABSENT, ABSENT), "WOO..")
-//                Arguments.of("WOERD", List.of("W", "O", ".", ".", "."), woord, List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT), List.of("W", "O", ".", "R", "D")),
-//                Arguments.of("WOORD", List.of("W", "O", ".", "R", "D"), woord, List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), List.of("W", "O", "O", "R", "D"))
+                Arguments.of("WOONT", "W....", woord, List.of(CORRECT, CORRECT, CORRECT, ABSENT, ABSENT), "WOO.."),
+                Arguments.of("WOERD", "WO...", woord, List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT),"WO.RD"),
+                Arguments.of("WOORD","WO.RD",  woord, List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT),"WOORD")
+
+
 
         );
 
     }
-    @Test
-    @DisplayName("if use prev hint to make new hint")
-    void newHint(){
 
-//        Feedback feedback = new Feedback()
-//        assertEquals();
-
+    @
+    @DisplayName("provide dots if mark is not right mark")
+    @ParameterizedTest
+    void test(String attempt, String previousHint, String wordToGuess, List<Mark> marks, String hint) {
+        Feedback feedback = new Feedback(attempt, marks);
+        assertEquals(hint, feedback.giveHint(previousHint, wordToGuess));
     }
+
+
+
+
 
 
     @Test
@@ -85,6 +93,5 @@ class FeedbackTest {
     void exceptionTest() {
         assertThrows(CustomException.class, () -> new Feedback("WOORD", List.of(ABSENT, ABSENT)));
     }
-
 
 }

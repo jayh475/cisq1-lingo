@@ -72,7 +72,7 @@ public class LingoGame {
 
 
     public Progress showProgress() {
-        return new Progress(gameStatus ,score, giveHint(), roundList.size(), getLastRound().getFeedbackList());
+        return new Progress(gameStatus, score, giveHint(), roundList.size(), getLastRound().getFeedbackList());
     }
 
 
@@ -90,14 +90,11 @@ public class LingoGame {
 
 
     public Round getLastRound() {
-        Round round;
         if (roundList.size() == 1) {
-            round = roundList.get(0);
+            return roundList.get(0);
         } else {
-            round =roundList.get(roundList.size()-1);
-
+            return roundList.get(roundList.size() - 1);
         }
-        return round;
     }
 
     private boolean checkIfRoundCanStart() {
