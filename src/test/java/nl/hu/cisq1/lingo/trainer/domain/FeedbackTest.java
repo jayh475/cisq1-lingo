@@ -34,7 +34,6 @@ class FeedbackTest {
     }
 
 
-
     @Test
     @DisplayName("word is not guessed if not all letters are correct")
     void wordIsNotGuessed() {
@@ -66,26 +65,36 @@ class FeedbackTest {
 //        R: assert
         return Stream.of(
                 Arguments.of("WOONT", "W....", woord, List.of(CORRECT, CORRECT, CORRECT, ABSENT, ABSENT), "WOO.."),
-                Arguments.of("WOERD", "WO...", woord, List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT),"WO.RD"),
-                Arguments.of("WOORD","WO.RD",  woord, List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT),"WOORD")
-
+                Arguments.of("WOERD", "WO...", woord, List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT), "WO.RD"),
+                Arguments.of("WOORD", "WO.RD", woord, List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), "WOORD")
 
 
         );
 
     }
 
-    @
-    @DisplayName("provide dots if mark is not right mark")
+    @MethodSource("provideMarkExamples")
+    @DisplayName("give right marks")
     @ParameterizedTest
-    void test(String attempt, String previousHint, String wordToGuess, List<Mark> marks, String hint) {
+    void giveMarks(String attempt, String wordToGuess, List<Mark> marks) {
         Feedback feedback = new Feedback(attempt, marks);
-        assertEquals(hint, feedback.giveHint(previousHint, wordToGuess));
+
+        assertEquals(Feedback.of(attempt, wordToGuess).getMarks(), feedback.getMarks());
+
     }
 
+    static Stream<Arguments> provideMarkExamples() {
 
+        return Stream.of(
+                Arguments.of("WAADT", "WOORD", List.of(CORRECT, ABSENT, ABSENT, PRESENT, ABSENT)),
+                Arguments.of("WEERD", "WOORD", List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT)),
+                Arguments.of("PATAT", "PAARD", List.of(CORRECT, CORRECT, ABSENT, PRESENT, ABSENT)),
+                Arguments.of("ATTAA", "PAARD", List.of(PRESENT, ABSENT, ABSENT, PRESENT, ABSENT)),
+                Arguments.of("AARAT", "WATER", List.of(ABSENT, CORRECT, PRESENT, ABSENT, PRESENT)),
+                Arguments.of("AAATT", "PAARD", List.of(ABSENT, CORRECT, CORRECT, ABSENT, ABSENT))
 
-
+        );
+    }
 
 
     @Test
@@ -93,5 +102,6 @@ class FeedbackTest {
     void exceptionTest() {
         assertThrows(CustomException.class, () -> new Feedback("WOORD", List.of(ABSENT, ABSENT)));
     }
+
 
 }

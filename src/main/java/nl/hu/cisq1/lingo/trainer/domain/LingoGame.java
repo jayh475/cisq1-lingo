@@ -2,7 +2,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -12,11 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Setter
 @Getter
 @NoArgsConstructor
-
-
 @Entity
 @Table(name = "lingo_game")
 public class LingoGame {
@@ -25,7 +21,6 @@ public class LingoGame {
     @Id
     @GeneratedValue
     private Integer id;
-
     private int score;
 
     @OneToMany
@@ -57,22 +52,23 @@ public class LingoGame {
         if (gameStatus == GameStatus.PLAYING) {
             Round round = getLastRound();
             round.guess(attempt);
+            if (getLastRound().lostGame()) {
+                gameStatus = GameStatus.ELIMINATED;
+            }
             if (round.isWon()) {
                 score += round.calculateScore();
                 gameStatus = GameStatus.WAITING_FOR_ROUND;
             }
 
+
         } else {
-            throw new CustomException("can not guess");
+            throw new CustomException("can not guess ");
 
         }
-
-
     }
 
-
     public Progress showProgress() {
-        return new Progress(gameStatus, score, giveHint(), roundList.size(), getLastRound().getFeedbackList());
+        return new Progress(score, giveHint(), roundList.size(), gameStatus, getLastRound().getFeedbackList(), id);
     }
 
 
@@ -98,7 +94,7 @@ public class LingoGame {
     }
 
     private boolean checkIfRoundCanStart() {
-        return (roundList.stream().allMatch(Round::checkIfRoundFinished) && gameStatus == GameStatus.WAITING_FOR_ROUND);
+        return (roundList.stream().allMatch(Round::lostGame) && gameStatus == GameStatus.WAITING_FOR_ROUND);
     }
 
 

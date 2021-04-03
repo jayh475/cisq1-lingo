@@ -4,7 +4,6 @@ import nl.hu.cisq1.lingo.trainer.application.LingoGameService;
 import nl.hu.cisq1.lingo.trainer.domain.LingoGame;
 import nl.hu.cisq1.lingo.trainer.domain.Progress;
 import nl.hu.cisq1.lingo.trainer.presentation.Dto.AttemptDto;
-import nl.hu.cisq1.lingo.trainer.presentation.Dto.LingoGameDto;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,32 +16,24 @@ public class TrainerController {
     }
 
     @GetMapping("/{id}")
-    public LingoGameDto getGame(@PathVariable(name = "id") int id){
-        LingoGame lingoGame =lingoGameService.getGame(id);
-
-        Progress progress = lingoGame.showProgress();
-
-        return new LingoGameDto( progress.getGameStatus(),progress.getScore(), progress.getCurrentHint(), progress.getRoundNumber(), id,progress.getFeedbackList());
+    public LingoGame getGame(@PathVariable(name = "id") int id) {
+        return lingoGameService.getGame(id);
     }
 
-
-
     @PostMapping("/start")
-    public LingoGameDto startGame() {
-        LingoGame lingoGame = this.lingoGameService.startGame();
-        Progress progress = lingoGame.showProgress();
-        return new LingoGameDto(progress.getGameStatus(),progress.getScore(), progress.getCurrentHint(), progress.getRoundNumber(), lingoGame.getId(),progress.getFeedbackList());
+    public Progress startGame() {
+        return this.lingoGameService.startGame();
+    }
+
+    @PostMapping("{id}/newRound")
+    public Progress startRound(@PathVariable(name="id") Integer gameId){
+        return this.lingoGameService.startNewRound(gameId);
     }
 
 
     @PostMapping("/{id}/guess")
-    public LingoGameDto guess(@PathVariable(name ="id") Integer gameId, @RequestBody AttemptDto attemptDto){
-        LingoGame lingoGame = lingoGameService.getGame(gameId);
-        lingoGameService.guess(gameId,attemptDto.attempt);
-        Progress progress = lingoGame.showProgress();
-
-        return  new LingoGameDto(progress.getGameStatus(),progress.getScore(), progress.getCurrentHint(), progress.getRoundNumber(), gameId,progress.getFeedbackList());
+    public Progress guess(@PathVariable(name = "id") Integer gameId, @RequestBody AttemptDto attemptDto) {
+        return lingoGameService.guess(gameId, attemptDto.attempt);
     }
-
 
 }

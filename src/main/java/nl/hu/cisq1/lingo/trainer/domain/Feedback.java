@@ -3,16 +3,18 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+
+import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
+import static nl.hu.cisq1.lingo.trainer.domain.Mark.ABSENT;
 
 @Getter
-@Setter
 @NoArgsConstructor
 
 @Entity
@@ -30,6 +32,47 @@ public class Feedback {
     private List<Mark> marks;
 
 
+    public static Feedback of(String attempt, String wordToGuess) {
+        List<Mark> marks = new ArrayList<>();
+        // calculate
+        String[] wordToGuessList = wordToGuess.toLowerCase().split("");
+        String[] lettersOfAttempt = attempt.toLowerCase().split("");
+        List<String> nonGuessedLetters = new ArrayList<>();
+
+        if (attempt.length() != wordToGuess.length()) {
+            throw new CustomException("attempt does not match size wordToGuess");
+        } else {
+            for (int i = 0; i < wordToGuessList.length; i++) {
+                if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
+                    nonGuessedLetters.add(wordToGuessList[i]);
+                }
+
+            }
+
+            for (int i = 0; i < wordToGuessList.length; i++) {
+                String letterInAttempt = lettersOfAttempt[i];
+                String letter = wordToGuessList[i];
+
+                if (letter.equals(lettersOfAttempt[i])) {
+                    marks.add(CORRECT);
+
+                } else if (nonGuessedLetters.contains(lettersOfAttempt[i])) {
+                    if (nonGuessedLetters.stream().filter(ch -> ch.equals(String.valueOf(letterInAttempt.charAt(0)))).count() <= wordToGuess.toLowerCase().chars().filter(ch -> ch == letterInAttempt.charAt(0)).count()) {
+                        marks.add(PRESENT);
+                        nonGuessedLetters.remove(letterInAttempt);
+                    } else {
+                        marks.add(ABSENT);
+                    }
+                } else {
+                    marks.add(ABSENT);
+                }
+            }
+        }
+
+        return new Feedback(attempt,marks);
+    }
+
+
 
     public Feedback(String attempt, List<Mark> marks) {
         if (attempt.length() != marks.size()) {
@@ -37,7 +80,6 @@ public class Feedback {
         }
         this.attempt = attempt;
         this.marks = marks;
-
 
 
     }
@@ -58,21 +100,25 @@ public class Feedback {
             if (marks.get(i) == Mark.CORRECT) {
                 hints.add(listOfLetters[i]);
 
-            } else if (marks.get(i) != Mark.CORRECT) {
-                hints.add(previousHintList[i]);
-
             } else {
-                hints.add(".");
+                hints.add(previousHintList[i]);
             }
         }
-
         this.hint = String.join("", hints);
         return hint;
 
     }
 
 
+
     public String getHint() {
         return hint;
     }
+    public void setHint(String hint){
+        this.hint = hint;
+
+    }
+
+
+
 }

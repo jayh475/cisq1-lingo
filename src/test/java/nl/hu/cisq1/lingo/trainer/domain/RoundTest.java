@@ -3,9 +3,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
@@ -13,83 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
-
-
-
-
-
-    @MethodSource("provideMarkExamples")
-    @DisplayName("give right marks")
-    @ParameterizedTest
-    void giveMarks(String attempt, String wordToGuess, List<Mark> marks) {
-        Round round = new Round(wordToGuess);
-
-        assertEquals(marks, round.generateMarks(attempt));
-
-    }
-
-    static Stream<Arguments> provideMarkExamples() {
-
-        return Stream.of(
-                Arguments.of("WAADT", "WOORD", List.of(CORRECT, ABSENT, ABSENT, PRESENT, ABSENT)),
-                Arguments.of("WEERD", "WOORD", List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT)),
-                Arguments.of("PATAT", "PAARD", List.of(CORRECT, CORRECT, ABSENT, PRESENT, ABSENT)),
-                Arguments.of("ATTAA","PAARD",List.of(PRESENT,ABSENT,ABSENT,PRESENT,ABSENT)),
-                Arguments.of("AARAT","WATER",List.of(ABSENT,CORRECT,PRESENT,ABSENT,PRESENT)),
-                Arguments.of("AAATT","PAARD",List.of(ABSENT,CORRECT,CORRECT,ABSENT,ABSENT))
-
-        );
-    }
-
-    @MethodSource("provideRightFeedback")
-    @DisplayName("Test if generate marks creates the right hints")
-    @ParameterizedTest
-    void generateRightFeedback(String attempt, String wordToGuess,String nextHint){
-        Round round = new Round(wordToGuess);
-        round.generateMarks(attempt);;
-        assertEquals(round.giveHint(),nextHint);
-
-
-
-    }
-    static Stream<Arguments> provideRightFeedback() {
-
-        return Stream.of(
-                Arguments.of("WAADT", "WOORD","W...."),
-                Arguments.of("WEERD", "WOORD","W..RD"),
-                Arguments.of("PATAT", "PAARD","PA..."),
-                Arguments.of("ATTAA","PAARD","P...."),
-                Arguments.of("AARAT","WATER","WA..."),
-                Arguments.of("AAATT","PAARD","PAA..")
-
-
-
-        );
-    }
-
-
-
-    @Test
-    @DisplayName("geeft  invalid aantal keer word ToGuees  als lengte van wordToGuess niet hetzelfde is als attempt ")
-    void WordTOGuessIsNotAttemptLength() {
-        Round round = new Round("WOORD");
-        assertThrows(CustomException.class, () -> round.generateMarks("JA"));
-
-    }
-
-    @Test
-    @DisplayName("Woord is goed en er wordt geen exception gegooid ")
-    void WordTOGuessIsAttemptLength() {
-        Round round = new Round("WOORD");
-        assertDoesNotThrow(() -> round.generateMarks("WOORD"));
-
-    }
 
 
     @Test
@@ -100,7 +22,7 @@ class RoundTest {
         for (int i = 0; i < 5; i++) {
             round.getFeedbackList().add(feedback);
         }
-        assertTrue(round.checkIfRoundFinished());
+        assertTrue(round.lostGame());
     }
 
     @Test
@@ -129,7 +51,7 @@ class RoundTest {
     @DisplayName("checks if initializingFirstHint gives a letter ")
     void InitializingFirstHint() {
         Round round = new Round("WOORD");
-        assertEquals("W...." , round.initializeFirstHint());
+        assertEquals("W....", round.initializeFirstHint());
 
 
     }
@@ -165,8 +87,6 @@ class RoundTest {
         Round round = new Round("WOORD");
         assertTrue(round.getFeedbackList().isEmpty());
     }
-
-
 
 
 }

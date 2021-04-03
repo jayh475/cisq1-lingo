@@ -51,11 +51,7 @@ class LingoGameTest {
         assertEquals("HOORD", lingoGame.getRoundList().get(0).getFeedbackList().get(0).getAttempt());
     }
 
-    @Test
-    @DisplayName("give hint when guess")
-    void giveHint() {
 
-    }
 
 
     //falende tests for Guess
@@ -86,9 +82,14 @@ class LingoGameTest {
     void showProgress() {
         LingoGame lingoGame = new LingoGame("WOORD");
         List<Feedback> feedbackList = new ArrayList<>();
-        Progress progress = new Progress(GameStatus.PLAYING,0, "W....", 1, feedbackList);
+        Progress progress = new Progress(0, "W....", 1, GameStatus.PLAYING, feedbackList, null);
         assertEquals(lingoGame.showProgress(), progress);
     }
+
+
+
+
+
 
 
 
@@ -101,7 +102,7 @@ class LingoGameTest {
 
     }
 
-
+//nextword geslaagd
     @Test
     @DisplayName("provide next word length when round finishes")
     void nextWordLength(){
@@ -110,6 +111,15 @@ class LingoGameTest {
         lingoGame.startNewRound("douch");
         assertEquals(6,lingoGame.provideNextWordLength());
 
+    }
+
+//    score
+    @Test
+    @DisplayName("score after right guess first attempt")
+    void rightScore(){
+        LingoGame lingoGame = new LingoGame("WOORD");
+        lingoGame.guess("WOORD");
+        assertEquals(25,lingoGame.getScore());
     }
 
 
