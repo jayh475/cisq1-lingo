@@ -17,7 +17,7 @@ public class TrainerController {
 
     @GetMapping("/{id}")
     public LingoGame getGame(@PathVariable(name = "id") int id) {
-        return lingoGameService.getGame(id);
+        return  lingoGameService.getGame(id);
     }
 
     @PostMapping("/start")

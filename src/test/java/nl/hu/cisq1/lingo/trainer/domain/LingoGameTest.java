@@ -30,6 +30,7 @@ class LingoGameTest {
         String wordToGuess = "WOORD";
         LingoGame lingoGame = new LingoGame(wordToGuess);
         lingoGame.guess(wordToGuess);
+
         assertDoesNotThrow(() -> lingoGame.startNewRound(wordToGuess));
     }
 

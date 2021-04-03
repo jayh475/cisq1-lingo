@@ -94,8 +94,9 @@ public class LingoGame {
     }
 
     private boolean checkIfRoundCanStart() {
-        return (roundList.stream().allMatch(Round::lostGame) && gameStatus == GameStatus.WAITING_FOR_ROUND);
+        return (roundList.stream().allMatch(Round::isWon) && gameStatus == GameStatus.WAITING_FOR_ROUND);
     }
+
 
 
 }

@@ -48,11 +48,11 @@ public class TrainerServiceIntegrationTest {
         assertNotNull(this.lingoGameService.startGame());
     }
 
-    @Test
-    @DisplayName("Guessing a word")
-    void GuessingWord(){
-
-    }
+//    @Test
+//    @DisplayName("Guessing a word")
+//    void GuessingWord(){
+//
+//    }
 
 
 

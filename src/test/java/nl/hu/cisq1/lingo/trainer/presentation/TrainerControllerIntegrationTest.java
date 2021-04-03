@@ -42,6 +42,8 @@ class TrainerControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+
     @Test
     @DisplayName("first guess at start of the game")
     void guess() throws Exception {
@@ -52,7 +54,6 @@ class TrainerControllerIntegrationTest {
         AttemptDto guess = new AttemptDto();
         guess.attempt = "knoop";
 
-//         JSON genereren van AttemptDto object en deze als een string returnen
         String guessBody = new ObjectMapper().writeValueAsString(guess);
         RequestBuilder guessRequest = MockMvcRequestBuilders
                 .post("/lingoGame/" + gameId + "/guess")
@@ -65,6 +66,7 @@ class TrainerControllerIntegrationTest {
                 .andExpect(jsonPath("$.gameId", greaterThanOrEqualTo(0)))
                 .andExpect(jsonPath("$.feedbacks", hasSize(1)));
     }
+
 
 
 }

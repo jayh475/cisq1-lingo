@@ -3,7 +3,10 @@ package nl.hu.cisq1.lingo.trainer.application;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.LingoGame;
 import nl.hu.cisq1.lingo.trainer.domain.Progress;
+import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.ResourceNotFoundException;
 import nl.hu.cisq1.lingo.words.application.WordService;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,7 +33,11 @@ public class LingoGameService {
 
 
     public LingoGame getGame(int id) {
-        return gameRepository.findLingoGameById(id);
+        LingoGame lingoGame = gameRepository.findLingoGameById(id);
+        if (lingoGame == null) {
+            throw new ResourceNotFoundException("person with ID["+ id +"] not found");
+        }
+        return lingoGame;
     }
 
 
