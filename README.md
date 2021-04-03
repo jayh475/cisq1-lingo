@@ -25,5 +25,12 @@ mvnw -DwithHistory org.pitest:pitest-maven:mutationCoverage
 ( results can be found in target/site/index.html )
 ```
 
+## Selenium end to end testing
+```
+For testing the whole application we can use Selenium and selenium IDE 
+
+
+```
+
 
 

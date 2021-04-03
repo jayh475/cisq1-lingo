@@ -22,10 +22,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
+//schrijf met@SpringBootTest een service integration test voor ten minste de volgende use case van onze applicatie:het raden van woorden.In het echt zou je van elke use case ten minste de happy path willen dekken.
+//        Let op dat je ook hier weer gebruik kunt maken van@ParameterizedTest.Deze tests testen onafhankelijk van de presentatie-infrastructuur,zoals HTTP.
+//        Om in onze continuous integration pipeline een in-memory database te gebruiken kan je@Import(CiTestConfiguration.class) toevoegen boven de testklasse.
+//        Er worden voor het testen in de continuous integration pipeline standaard drie woorden ingeladen in de woordendatabase(zie:WordTestDataFixtures).
+//        Om zelf testdata(fixtures)te importeren kan je een nieuwe commandline runner toevoegen of kan je gebruik maken van een@BeforeAll lifecycle method.
+
+
 @SpringBootTest
 @Transactional
 @Import(CiTestConfiguration.class)
-public class TrainerIntegrationTest {
+public class TrainerServiceIntegrationTest {
     @Autowired
     private LingoGameService lingoGameService;
     @Autowired
@@ -40,6 +47,15 @@ public class TrainerIntegrationTest {
         gameRepository.save(lingoGame);
         assertNotNull(this.lingoGameService.startGame());
     }
+
+    @Test
+    @DisplayName("Guessing a word")
+    void GuessingWord(){
+
+    }
+
+
+
 
 
 
