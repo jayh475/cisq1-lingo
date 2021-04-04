@@ -84,11 +84,6 @@ class RoundTest {
     }
 
 
-
-
-
-
-
     @Test
     @DisplayName("check if first letter is given With the function giveHint")
     void giveFirstLetter() {

@@ -39,20 +39,25 @@ public class TrainerServiceIntegrationTest {
     private SpringGameRepository gameRepository;
 
 
-    @Test
-    @DisplayName("game is not empty ")
-    void startGame() {
-        String wordToGuess = "jarig";
-        LingoGame lingoGame = new LingoGame(wordToGuess);
-        gameRepository.save(lingoGame);
-        assertNotNull(this.lingoGameService.startGame());
-    }
-
 //    @Test
-//    @DisplayName("Guessing a word")
-//    void GuessingWord(){
+//    @DisplayName("game is not empty ")
+//    void startGame() {
+//        String wordToGuess = "jarig";
+//        when(LingoGame lingoGame = new LingoGame(wordToGuess));
 //
+//        when(lingoGameService.startGame()).thenReturn()
+//        lingoGameService.startGame();
+//        gameRepository.save(lingoGame);
+//        assertNotNull(gameRepository.findLingoGameById();
 //    }
+
+
+    @Test
+    @DisplayName("Guessing a word")
+    void GuessingWord(){
+
+
+    }
 
 
 
