@@ -69,9 +69,8 @@ public class Feedback {
             }
         }
 
-        return new Feedback(attempt,marks);
+        return new Feedback(attempt, marks);
     }
-
 
 
     public Feedback(String attempt, List<Mark> marks) {
@@ -95,7 +94,6 @@ public class Feedback {
         List<String> hints = new ArrayList<>();
         String[] previousHintList = previousHint.toUpperCase().split("");
 
-
         for (int i = 0; i < listOfLetters.length; i++) {
             if (marks.get(i) == Mark.CORRECT) {
                 hints.add(listOfLetters[i]);
@@ -110,15 +108,14 @@ public class Feedback {
     }
 
 
-
     public String getHint() {
         return hint;
     }
-    public void setHint(String hint){
+
+    public void setHint(String hint) {
         this.hint = hint;
 
     }
-
 
 
 }

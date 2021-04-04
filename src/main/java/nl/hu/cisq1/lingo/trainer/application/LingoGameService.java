@@ -33,16 +33,13 @@ public class LingoGameService {
 
 
     public LingoGame getGame(int id) {
-        LingoGame lingoGame = gameRepository.findLingoGameById(id);
-        if (lingoGame == null) {
-            throw new ResourceNotFoundException("person with ID["+ id +"] not found");
-        }
-        return lingoGame;
+        return gameRepository.findLingoGameById(id).orElseThrow(() -> new ResourceNotFoundException("Game not found"));
+
     }
 
 
     public Progress startNewRound(int id) {
-        LingoGame lingoGame = gameRepository.findLingoGameById(id);
+        LingoGame lingoGame = gameRepository.findLingoGameById(id).orElseThrow(() -> new ResourceNotFoundException("Game not found"));
         String wordToGUess = wordService.provideRandomWord(lingoGame.provideNextWordLength());
         lingoGame.startNewRound(wordToGUess);
         gameRepository.save(lingoGame);
@@ -51,7 +48,7 @@ public class LingoGameService {
 
 
     public Progress guess(int id, String attempt) {
-        LingoGame lingoGame = gameRepository.findLingoGameById(id);
+        LingoGame lingoGame = gameRepository.findLingoGameById(id).orElseThrow(() -> new ResourceNotFoundException("Game not found"));
         lingoGame.guess(attempt);
         gameRepository.save(lingoGame);
 

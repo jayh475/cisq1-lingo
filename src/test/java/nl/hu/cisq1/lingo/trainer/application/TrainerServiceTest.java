@@ -38,7 +38,7 @@ class TrainerServiceTest {
         game.guess("appel");
 
         SpringGameRepository gameRepository = mock(SpringGameRepository.class);
-        when(gameRepository.findLingoGameById(anyInt())).thenReturn(game);
+        when(gameRepository.findLingoGameById(anyInt())).thenReturn(java.util.Optional.of(game));
 
         LingoGameService lingoGameService = new LingoGameService(gameRepository, wordService);
 

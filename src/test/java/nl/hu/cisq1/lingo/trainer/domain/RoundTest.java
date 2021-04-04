@@ -75,6 +75,21 @@ class RoundTest {
     }
 
     @Test
+    @DisplayName("feedbacklist not empty and it's not the first feedback check")
+    void secFeedbackHint(){
+        Round round = new Round("WOORD");
+        round.guess("WAARD");
+        round.guess("WOERD");
+        assertEquals("WO.RD",round.giveHint());
+    }
+
+
+
+
+
+
+
+    @Test
     @DisplayName("check if first letter is given With the function giveHint")
     void giveFirstLetter() {
         Round round = new Round("WOORD");

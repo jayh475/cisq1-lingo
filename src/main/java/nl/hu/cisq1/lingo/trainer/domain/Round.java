@@ -48,7 +48,6 @@ public class Round {
 
         }
         return String.join("", hints);
-
     }
 
 
@@ -57,12 +56,14 @@ public class Round {
             throw new CustomException("cannot guess because round is finished");
         } else {
             feedbackList.add(Feedback.of(attempt, wordToGuess));
+            giveHint();
         }
     }
 
     public int calculateScore() {
         return MAX_ATTEMPTS * (MAX_ATTEMPTS - getAttemptCount()) + MAX_ATTEMPTS;
     }
+
 
     private int getAttemptCount() {
         return feedbackList.size();
@@ -73,16 +74,11 @@ public class Round {
         if (feedbackList.isEmpty()) {
             return initializeFirstHint();
         } else if (getAttemptCount() == 1) {
-            Feedback feedback = feedbackList.get(0);
-            feedback.setHint(feedback.giveHint(initializeFirstHint(), wordToGuess));
-            return feedback.getHint();
-
+            return feedbackList.get(0).giveHint(initializeFirstHint(), wordToGuess);
         } else {
             Feedback feedback = feedbackList.get(getAttemptCount() - 1);
-            feedback.setHint(feedback.giveHint(feedbackList.get(getAttemptCount() - 2).getHint(), wordToGuess));
-
-            return feedback.getHint();
-
+            String previousHint = feedbackList.get(getAttemptCount() - 2).getHint();
+            return feedback.giveHint(previousHint, wordToGuess);
         }
     }
 
