@@ -27,13 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-//Stap 2: Maak een controller integration testIn een @SpringBootTest kunnen we ook HTTP simuleren, zodat we vanaf de controller kunnen testen alsof we HTTP gebruiken. Hiervoor gebruiken we MockMvc. Zie als voorbeeld de controller test van de words component. MockMvc moet klaargezet worden voor onze test, annoteer de testklasse met @AutoConfigureMockMvc.
-//        MockMvc kan je als dependency laten injecteren via property injection:@Autowiredprivate MockMvc mockMvc;Vervolgens kan je de MockMvcRequestBuilder gebruiken om een request op te bouwen.
-//        Deze request kan je aan meegeven aan de perform-methode: (mockMvc.perform(request)). Daar kan je vervolgens rechtstreeks matchen op eigenschappen om assertions op uit te voeren:mockMvc.
-//        perform(request)    .andExpect(status().isOk())De status() is hier een static import van MockMvcResultMatchers. Matchers richten de focus op een bepaalde eigenschap van je response. Daar kan je vervolgens een assertion op doen. Te importeren met:import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//        Natuurlijk willen we meer dan alleen de statuscode verifiëren. Daar zijn weer andere result matchers voor,
-//        bijvoorbeeld:1content(): match op de gehele response bodyjsonPath(): match op een bepaalde path binnen de response body JSON oZie voor een voorbeeld: https://mkyong.com/spring-boot/spring-test-how-to-test-a-json-array-in-jsonpath/ cookie(): match op een specifieke response cookieheader(): match op een specfieke response header
-//
+
 
 @SpringBootTest
 @Import(CiTestConfiguration.class)

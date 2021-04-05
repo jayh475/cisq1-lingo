@@ -41,17 +41,8 @@ public class TrainerServiceIntegrationTest {
     }
 
 
-
-//    @Test
-//    @DisplayName("game is not empty ")
-//    void startGame() {
-//       assertEquals();
-//
-//    }
-
-
     @Test
-    @DisplayName("Guessing a word correct")
+    @DisplayName("Guessing a word not correct")
     void GuessingWord(){
        Progress progress = lingoGameService.guess(id,"WOORD");
         assertEquals(GameStatus.PLAYING,progress.getGameStatus());

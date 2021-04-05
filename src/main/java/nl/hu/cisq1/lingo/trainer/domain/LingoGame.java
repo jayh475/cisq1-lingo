@@ -2,6 +2,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nl.hu.cisq1.lingo.security.data.User;
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -23,8 +24,9 @@ public class LingoGame {
     private Integer id;
     private int score;
 
-    @OneToMany
 
+
+    @OneToMany
     @Cascade(CascadeType.ALL)
     private final List<Round> roundList = new ArrayList<>();
 
