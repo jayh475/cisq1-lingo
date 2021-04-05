@@ -24,8 +24,6 @@ public class LingoGame {
     private Integer id;
     private int score;
 
-
-
     @OneToMany
     @Cascade(CascadeType.ALL)
     private final List<Round> roundList = new ArrayList<>();
