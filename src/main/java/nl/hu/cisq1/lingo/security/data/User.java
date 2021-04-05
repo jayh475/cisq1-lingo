@@ -3,8 +3,6 @@ package nl.hu.cisq1.lingo.security.data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -13,6 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -30,6 +30,7 @@ public class User implements UserDetails {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
 
     public Long getId() {
         return id;
@@ -75,6 +76,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
     }
 
 

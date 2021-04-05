@@ -31,11 +31,14 @@ public class TrainerServiceIntegrationTest {
     @Autowired
     private SpringGameRepository gameRepository;
 
+    private String username ;
+
 
 
     @BeforeEach
     public void setUp() {
-        Progress progress = lingoGameService.startGame();
+        username = "jayh475";
+        Progress progress = lingoGameService.startGame(username);
          id = progress.getGameId();
 
     }
@@ -44,15 +47,16 @@ public class TrainerServiceIntegrationTest {
     @Test
     @DisplayName("Guessing a word not correct")
     void GuessingWord(){
-       Progress progress = lingoGameService.guess(id,"WOORD");
+       Progress progress = lingoGameService.guess(id,"WOORD",username);
         assertEquals(GameStatus.PLAYING,progress.getGameStatus());
         assertEquals("P....",progress.getCurrentHint());
     }
 
+
     @Test
     @DisplayName("Guessing a word correct")
     void GuessingWordCorrectly(){
-        Progress progress = lingoGameService.guess(id,"PIZZA");
+        Progress progress = lingoGameService.guess(id,"PIZZA",username);
         assertEquals(GameStatus.WAITING_FOR_ROUND,progress.getGameStatus());
         assertEquals("PIZZA",progress.getCurrentHint());
     }

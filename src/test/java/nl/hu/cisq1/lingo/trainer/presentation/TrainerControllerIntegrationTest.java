@@ -48,6 +48,7 @@ class TrainerControllerIntegrationTest {
         AttemptDto guess = new AttemptDto();
         guess.attempt = "knoop";
 
+//        TODO setting auth token in the post
         String guessBody = new ObjectMapper().writeValueAsString(guess);
         RequestBuilder guessRequest = MockMvcRequestBuilders
                 .post("/lingoGame/" + gameId + "/guess")

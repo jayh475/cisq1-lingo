@@ -17,12 +17,14 @@ import java.util.List;
 @Entity
 @Table(name = "lingo_game")
 public class LingoGame {
-
-
     @Id
     @GeneratedValue
     private Integer id;
     private int score;
+
+    private String player;
+
+
 
     @OneToMany
     @Cascade(CascadeType.ALL)
@@ -32,7 +34,8 @@ public class LingoGame {
     private GameStatus gameStatus;
 
 
-    public LingoGame(String wordToGuess) {
+    public LingoGame(String wordToGuess,String player) {
+        this.player = player;
         roundList.add(new Round(wordToGuess));
         gameStatus = GameStatus.PLAYING;
     }

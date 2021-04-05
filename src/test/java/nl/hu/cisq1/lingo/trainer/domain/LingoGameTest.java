@@ -2,6 +2,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +12,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LingoGameTest {
+    private String username;
+
+    @BeforeEach
+    void setUp(){
+       username = "Jayh";
+
+    }
 
 
     @Test
     @DisplayName("start new game and get first hint without attempt")
     void newLingoGame() {
         String wordToGuess = "WOORD";
-        LingoGame lingoGame = new LingoGame(wordToGuess);
+        LingoGame lingoGame = new LingoGame(wordToGuess,username);
         assertEquals("W....", lingoGame.giveHint());
 
     }
@@ -28,7 +36,7 @@ class LingoGameTest {
     @DisplayName("Round could  be started, because last round was finished and status was waiting for round")
     void roundNotfinished() {
         String wordToGuess = "WOORD";
-        LingoGame lingoGame = new LingoGame(wordToGuess);
+        LingoGame lingoGame = new LingoGame(wordToGuess,username);
         lingoGame.guess(wordToGuess);
 
         assertDoesNotThrow(() -> lingoGame.startNewRound(wordToGuess));
@@ -39,7 +47,7 @@ class LingoGameTest {
     @DisplayName("Exception is thrown because round was not finished")
     void newRoundException() {
         String wordToGuess = "WOORD";
-        LingoGame lingoGame = new LingoGame(wordToGuess);
+        LingoGame lingoGame = new LingoGame(wordToGuess,username);
         assertThrows(CustomException.class, () -> lingoGame.startNewRound(wordToGuess));
     }
 
@@ -47,7 +55,7 @@ class LingoGameTest {
     @Test
     @DisplayName("the guess was asserted in the in the round ")
     void guessInRound() {
-        LingoGame lingoGame = new LingoGame("WOORD");
+        LingoGame lingoGame = new LingoGame("WOORD",username);
         lingoGame.guess("HOORD");
         assertEquals("HOORD", lingoGame.getRoundList().get(0).getFeedbackList().get(0).getAttempt());
     }
@@ -66,7 +74,7 @@ class LingoGameTest {
     @Test
     @DisplayName("Can't guess because feedback list contains 5 attempts")
     void exceededAttempts() {
-        LingoGame lingoGame = new LingoGame("WOORD");
+        LingoGame lingoGame = new LingoGame("WOORD",username);
         lingoGame.guess("Jarig");
         lingoGame.guess("waard");
         lingoGame.guess("weert");
@@ -81,7 +89,7 @@ class LingoGameTest {
     @Test
     @DisplayName("Show progress without attempt")
     void showProgress() {
-        LingoGame lingoGame = new LingoGame("WOORD");
+        LingoGame lingoGame = new LingoGame("WOORD",username);
         List<Feedback> feedbackList = new ArrayList<>();
         Progress progress = new Progress(0, "W....", 1, GameStatus.PLAYING, feedbackList, null);
         assertEquals(lingoGame.showProgress(), progress);
@@ -97,7 +105,7 @@ class LingoGameTest {
     @Test
     @DisplayName("provide length after highest length has been reached")
     void firstWordLength(){
-        LingoGame lingoGame = new LingoGame("WOORDEN");
+        LingoGame lingoGame = new LingoGame("WOORDEN",username);
 
         assertEquals(5,lingoGame.provideNextWordLength());
 
@@ -107,7 +115,7 @@ class LingoGameTest {
     @Test
     @DisplayName("provide next word length when round finishes")
     void nextWordLength(){
-        LingoGame lingoGame = new LingoGame("WOORD");
+        LingoGame lingoGame = new LingoGame("WOORD",username);
         lingoGame.guess("WOORD");
         lingoGame.startNewRound("douch");
         assertEquals(6,lingoGame.provideNextWordLength());
@@ -118,7 +126,7 @@ class LingoGameTest {
     @Test
     @DisplayName("score after right guess first attempt")
     void rightScore(){
-        LingoGame lingoGame = new LingoGame("WOORD");
+        LingoGame lingoGame = new LingoGame("WOORD",username);
         lingoGame.guess("WOORD");
         assertEquals(25,lingoGame.getScore());
     }
