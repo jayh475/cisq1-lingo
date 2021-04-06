@@ -61,8 +61,6 @@ class TrainerControllerIntegrationTest {
     @Test
     @DisplayName("first guess at start of the game")
     void guess() throws Exception {
-
-//        TODO USERPROFILE mock
         RequestBuilder newGameLingoGameRequest = MockMvcRequestBuilders
                 .post("/lingoGame/start").header("Authorization", jwtToken);
         MockHttpServletResponse response = mockMvc.perform(newGameLingoGameRequest).andReturn().getResponse();

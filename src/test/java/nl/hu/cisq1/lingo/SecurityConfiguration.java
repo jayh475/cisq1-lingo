@@ -38,7 +38,6 @@ public class SecurityConfiguration {
 
             String secret = "\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6IjcyZDMyZTAzLTIxNzUtNGI3Mi1hOTQ5LWRjNzE0ZGE5OTM5YyIsImlhdCI6MTYxNjI0MjA2NiwiZXhwIjoxNjE2MjQ1NjY2fQ.kTXHnKPZDGYyNFpFnZrMA7Az1ScCwnM_5It1jRHEf0U\"";
 
-            System.out.println("secret " + secret);
             int expDateMs = 4600000;
             List<String> roles = List.of("ROLE_USER");
 
