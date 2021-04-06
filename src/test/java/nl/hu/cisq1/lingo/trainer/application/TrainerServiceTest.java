@@ -16,7 +16,6 @@ import static org.mockito.Mockito.*;
 class TrainerServiceTest {
     private SpringGameRepository springGameRepository;
     private LingoGameService lingoGameService;
-    private UserService userService;
     private String username;
 
     @BeforeEach
@@ -24,7 +23,7 @@ class TrainerServiceTest {
         username = "Jayh475";
         WordService wordService = mock(WordService.class);
         springGameRepository = mock(SpringGameRepository.class);
-        userService = mock(UserService.class);
+        UserService userService = mock(UserService.class);
 
         lingoGameService = new LingoGameService(springGameRepository, wordService, userService);
         when(wordService.provideRandomWord(6)).thenReturn("appels");

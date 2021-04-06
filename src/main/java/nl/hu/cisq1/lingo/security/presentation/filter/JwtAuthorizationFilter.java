@@ -29,7 +29,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             AuthenticationManager authenticationManager
     ) {
         super(authenticationManager);
-
         this.secret = secret;
     }
 

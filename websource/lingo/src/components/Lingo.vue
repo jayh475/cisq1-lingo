@@ -15,6 +15,9 @@
 
 
 
+      {{console.log(err)}}
+
+
       <div v-if="lingoGameData">
         <div v-for="feedback in lingoGameData.feedbacks" :key="feedback" class="row">
           <div :class="getClassForLetter(feedback.marks[x])" v-for="(letter,x) in feedback.attempt.split('')"
@@ -38,7 +41,7 @@
 
 <script>
 import axios from 'axios';
-// import lo from 'lodash';
+import _ from 'lodash';
 
 
 export default {
@@ -50,6 +53,24 @@ export default {
       attempt: null,
       gameId: null
     }
+  },
+  computed:{
+    filledFeedbacks(){
+      try {
+        let feedbacks = _.clone(this.lingoGameData.feedbacks)
+           return  _.assign(_.fill(new Array(5), []), feedbacks)
+      }catch (e){
+        return null
+
+      }
+    }
+
+
+
+
+
+
+
   },
   methods: {
 
