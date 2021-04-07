@@ -46,6 +46,7 @@ public class Feedback {
             if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
                 nonGuessedLetters.add(wordToGuessList[i]);
             }
+
         }
         for (int i = 0; i < wordToGuessList.length; i++) {
             String letterInAttempt = lettersOfAttempt[i];
@@ -106,9 +107,7 @@ public class Feedback {
         return hint;
     }
 
-    public void setHint(String hint) {
-        this.hint = hint;
-    }
+
 
 
 }
