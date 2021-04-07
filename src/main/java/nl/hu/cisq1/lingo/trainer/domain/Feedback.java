@@ -57,8 +57,6 @@ public class Feedback {
                     if (nonGuessedLetters.stream().filter(ch -> ch.equals(String.valueOf(letterInAttempt.charAt(0)))).count() <= wordToGuess.toLowerCase().chars().filter(ch -> ch == letterInAttempt.charAt(0)).count()) {
                         marks.add(PRESENT);
                         nonGuessedLetters.remove(letterInAttempt);
-                    } else {
-                        marks.add(ABSENT);
                     }
                 } else {
                     marks.add(ABSENT);
@@ -111,7 +109,6 @@ public class Feedback {
 
     public void setHint(String hint) {
         this.hint = hint;
-
     }
 
 
