@@ -104,5 +104,13 @@ class FeedbackTest {
         assertThrows(CustomException.class, () -> new Feedback("WOORD", marks));
     }
 
+    @Test
+    @DisplayName("throw exception if attempt is not equal to wordToGuess")
+    void wordToGuessNotLengthAttempt(){
+        String attempt = "WOORD";
+        String wordToGuess = "langer";
+     assertThrows(CustomException.class, () -> Feedback.of(attempt,wordToGuess));
+    }
+
 
 }
