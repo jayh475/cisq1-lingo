@@ -42,4 +42,5 @@ public class TrainerController {
         return lingoGameService.guess(gameId, attemptDto.attempt,profile.getUsername());
     }
 
+
 }

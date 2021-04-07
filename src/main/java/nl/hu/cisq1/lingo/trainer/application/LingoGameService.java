@@ -37,13 +37,10 @@ public class LingoGameService {
         return lingoGameDto(id,username);
     }
 
-
     public Progress startNewRound(int id, String username) {
         LingoGame lingoGame = lingoGameDto(id,username);
         String wordToGUess = wordService.provideRandomWord(lingoGame.provideNextWordLength());
         lingoGame.startNewRound(wordToGUess);
-
-
 
         gameRepository.save(lingoGame);
         return lingoGame.showProgress();

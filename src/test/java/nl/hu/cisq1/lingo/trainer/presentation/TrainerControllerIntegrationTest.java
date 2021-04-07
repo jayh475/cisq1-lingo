@@ -11,11 +11,13 @@ import nl.hu.cisq1.lingo.trainer.domain.GameStatus;
 import nl.hu.cisq1.lingo.trainer.presentation.Dto.AttemptDto;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.h2.engine.User;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,10 +35,6 @@ import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-
-
-
-
 @SpringBootTest
 
 @Import({CiTestConfiguration.class})
@@ -44,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class TrainerControllerIntegrationTest {
     private String jwtToken;
+    private MockHttpServletResponse response;
 
     @Autowired
     SpringUserRepository springUserRepository;
@@ -52,18 +51,26 @@ class TrainerControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp(){
+    void setUp() throws Exception {
         this.jwtToken = SecurityConfiguration.getJwtToken(springUserRepository);
+        RequestBuilder newGameLingoGameRequest = MockMvcRequestBuilders
+                .post("/lingoGame/start").header("Authorization", jwtToken);
+        response = mockMvc.perform(newGameLingoGameRequest).andReturn().getResponse();
+    }
 
+    @AfterEach
+    void tearDown() {
+        this.jwtToken = null;
+        response = null;
+        mockMvc = null;
+        springUserRepository = null;
     }
 
 
     @Test
     @DisplayName("first guess at start of the game")
     void guess() throws Exception {
-        RequestBuilder newGameLingoGameRequest = MockMvcRequestBuilders
-                .post("/lingoGame/start").header("Authorization", jwtToken);
-        MockHttpServletResponse response = mockMvc.perform(newGameLingoGameRequest).andReturn().getResponse();
+
         Integer gameId = JsonPath.read(response.getContentAsString(), "$.gameId");
         AttemptDto guess = new AttemptDto();
         guess.attempt = "knoop";
@@ -71,9 +78,9 @@ class TrainerControllerIntegrationTest {
         String guessBody = new ObjectMapper().writeValueAsString(guess);
         RequestBuilder guessRequest = MockMvcRequestBuilders
                 .post("/lingoGame/" + gameId + "/guess")
-                .contentType(MediaType.APPLICATION_JSON).header("Authorization" ,jwtToken)
-
+                .contentType(MediaType.APPLICATION_JSON).header("Authorization", jwtToken)
                 .content(guessBody);
+
         mockMvc.perform(guessRequest)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.gameStatus", is(GameStatus.PLAYING.toString())))
@@ -82,10 +89,22 @@ class TrainerControllerIntegrationTest {
     }
 
 
+    @Test
+    @DisplayName("Get game")
+    void getGame() throws Exception {
+        Integer gameId = JsonPath.read(response.getContentAsString(), "$.gameId");
+        RequestBuilder guessRequest = MockMvcRequestBuilders
+                .get("/lingoGame/" + gameId)
+                .contentType(MediaType.APPLICATION_JSON).header("Authorization", jwtToken);
+
+        mockMvc.perform(guessRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameStatus", is(GameStatus.PLAYING.toString())))
+                .andExpect(jsonPath("$.id", greaterThanOrEqualTo(0)))
+                .andExpect(jsonPath("$.player", is("jayh475")));
 
 
-
-
+    }
 
 
 }

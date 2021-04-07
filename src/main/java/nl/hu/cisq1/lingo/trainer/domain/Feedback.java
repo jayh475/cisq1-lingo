@@ -34,7 +34,6 @@ public class Feedback {
 
     public static Feedback of(String attempt, String wordToGuess) {
         List<Mark> marks = new ArrayList<>();
-        // calculate
         String[] wordToGuessList = wordToGuess.toLowerCase().split("");
         String[] lettersOfAttempt = attempt.toLowerCase().split("");
         List<String> nonGuessedLetters = new ArrayList<>();
@@ -46,9 +45,7 @@ public class Feedback {
                 if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
                     nonGuessedLetters.add(wordToGuessList[i]);
                 }
-
             }
-
             for (int i = 0; i < wordToGuessList.length; i++) {
                 String letterInAttempt = lettersOfAttempt[i];
                 String letter = wordToGuessList[i];

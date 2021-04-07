@@ -49,10 +49,10 @@ public class SecurityConfiguration {
                     .setIssuer("hu-lingo-api")
                     .setAudience("hu-lingo")
                     .setSubject(username)
-                    .setSubject(firstname)
-                    .setSubject(lastName)
                     .setExpiration(new Date(System.currentTimeMillis() + expDateMs))
                     .claim("rol", roles)
+                    .claim("firstname",firstname)
+                    .claim("lastname",lastName)
                     .compact();
         }
     }
