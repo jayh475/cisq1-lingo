@@ -45,7 +45,6 @@ public class Round {
             } else {
                 hints.add(".");
             }
-
         }
         return String.join("", hints);
     }
