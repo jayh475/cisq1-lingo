@@ -2,7 +2,6 @@ package nl.hu.cisq1.lingo.security.application;
 
 import nl.hu.cisq1.lingo.security.data.SpringUserRepository;
 import nl.hu.cisq1.lingo.security.data.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
