@@ -63,13 +63,8 @@ public class Feedback {
                 marks.add(ABSENT);
             }
         }
+        return new Feedback(attempt, marks);
     }
-
-        return new
-
-    Feedback(attempt, marks);
-
-}
 
 
     public Feedback(String attempt, List<Mark> marks) {
