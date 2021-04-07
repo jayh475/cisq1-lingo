@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Import(CiTestConfiguration.class)
-public class TrainerServiceIntegrationTest {
+class TrainerServiceIntegrationTest {
     private int id;
     @Autowired
     private LingoGameService lingoGameService;
@@ -40,7 +40,6 @@ public class TrainerServiceIntegrationTest {
         username = "jayh475";
         Progress progress = lingoGameService.startGame(username);
          id = progress.getGameId();
-
     }
 
 

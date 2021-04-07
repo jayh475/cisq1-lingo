@@ -7,6 +7,7 @@ import nl.hu.cisq1.lingo.security.application.UserService;
 import nl.hu.cisq1.lingo.security.data.SpringUserRepository;
 import nl.hu.cisq1.lingo.security.data.User;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
@@ -17,8 +18,7 @@ import static org.mockito.Mockito.mock;
 
 public class SecurityConfiguration {
 
-
-        public static String getJwtToken(SpringUserRepository userRepository) {
+    public static String getJwtToken(SpringUserRepository userRepository) {
             UserService userService = new UserService(userRepository, mock(PasswordEncoder.class));
 
             try{
@@ -35,7 +35,6 @@ public class SecurityConfiguration {
             String username = "jayh475";
             String firstname = "Jayh";
             String lastName = "de Cuba";
-
 
             String secret = "\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImp0aSI6IjcyZDMyZTAzLTIxNzUtNGI3Mi1hOTQ5LWRjNzE0ZGE5OTM5YyIsImlhdCI6MTYxNjI0MjA2NiwiZXhwIjoxNjE2MjQ1NjY2fQ.kTXHnKPZDGYyNFpFnZrMA7Az1ScCwnM_5It1jRHEf0U\"";
 

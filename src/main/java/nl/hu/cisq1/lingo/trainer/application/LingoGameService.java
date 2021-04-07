@@ -20,19 +20,17 @@ import javax.transaction.Transactional;
 public class LingoGameService {
     private final SpringGameRepository gameRepository;
     private final WordService wordService;
-    private final UserService userService;
 
-
-    public LingoGameService(SpringGameRepository gameRepository, WordService wordService, UserService userService) {
+    public LingoGameService(SpringGameRepository gameRepository, WordService wordService) {
         this.gameRepository = gameRepository;
         this.wordService = wordService;
-        this.userService = userService;
     }
 
     public Progress startGame(String username) {
         String wordToGuess = wordService.provideRandomWord(5);
         LingoGame lingoGame = new LingoGame(wordToGuess,username);
         gameRepository.save(lingoGame);
+
         return lingoGame.showProgress();
     }
     public LingoGame getGame(int id,String username) {
@@ -42,7 +40,6 @@ public class LingoGameService {
 
        }
         return lingoGame;
-
     }
 
 
@@ -72,6 +69,8 @@ public class LingoGameService {
 
         return lingoGame.showProgress();
     }
+
+
 
 
 }

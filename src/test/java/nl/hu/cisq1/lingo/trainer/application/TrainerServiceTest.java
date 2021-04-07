@@ -23,9 +23,8 @@ class TrainerServiceTest {
         username = "Jayh475";
         WordService wordService = mock(WordService.class);
         springGameRepository = mock(SpringGameRepository.class);
-        UserService userService = mock(UserService.class);
 
-        lingoGameService = new LingoGameService(springGameRepository, wordService, userService);
+        lingoGameService = new LingoGameService(springGameRepository, wordService);
         when(wordService.provideRandomWord(6)).thenReturn("appels");
         when(wordService.provideRandomWord(5)).thenReturn("peren");
 
@@ -51,8 +50,8 @@ class TrainerServiceTest {
         game.guess("appel");
         when(springGameRepository.findLingoGameById(anyInt())).thenReturn(java.util.Optional.of(game));
         Progress progress = lingoGameService.startNewRound(0,username);
-        assertEquals(progress.getRoundNumber(), 2);
-        assertEquals(progress.getCurrentHint(), "a.....");
+        assertEquals(2,progress.getRoundNumber());
+        assertEquals("a.....",progress.getCurrentHint());
     }
 
 
