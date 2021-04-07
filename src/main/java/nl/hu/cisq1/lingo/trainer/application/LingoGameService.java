@@ -34,40 +34,36 @@ public class LingoGameService {
         return lingoGame.showProgress();
     }
     public LingoGame getGame(int id,String username) {
-       LingoGame lingoGame = gameRepository.findLingoGameById(id).orElseThrow(() -> new ResourceNotFoundException("Game not found"));
-       if(!lingoGame.getPlayer().equals(username)){
-           throw new CustomException("Player does not exist on this id");
-
-       }
-        return lingoGame;
+        return lingoGameDto(id,username);
     }
 
 
     public Progress startNewRound(int id, String username) {
-        LingoGame lingoGame = gameRepository.findLingoGameById(id).orElseThrow(() -> new ResourceNotFoundException("Game not found"));
+        LingoGame lingoGame = lingoGameDto(id,username);
         String wordToGUess = wordService.provideRandomWord(lingoGame.provideNextWordLength());
         lingoGame.startNewRound(wordToGUess);
 
-        if(!lingoGame.getPlayer().equals(username)){
-            throw new CustomException("Player does not exist on this id");
-        }
+
 
         gameRepository.save(lingoGame);
         return lingoGame.showProgress();
     }
 
-
     public Progress guess(int id, String attempt, String username) {
-        LingoGame lingoGame = gameRepository.findLingoGameById(id).orElseThrow(() -> new ResourceNotFoundException("Game not found"));
-
-        if(!lingoGame.getPlayer().equals(username)){
-            throw new CustomException("Player does not exist on this id");
-        }
-
+         LingoGame lingoGame = lingoGameDto(id,username);
         lingoGame.guess(attempt);
         gameRepository.save(lingoGame);
 
         return lingoGame.showProgress();
+    }
+
+
+    public LingoGame lingoGameDto(int id,String username){
+        LingoGame lingoGame= gameRepository.findLingoGameById(id).orElseThrow(() -> new ResourceNotFoundException("Game not found"));
+        if(!lingoGame.getPlayer().equals(username)){
+            throw new CustomException("Player does not exist on this id");
+        }
+        return lingoGame;
     }
 
 
