@@ -14,10 +14,6 @@
       <p> game Id = {{ this.gameId }}</p>
 
 
-
-      {{console.log(err)}}
-
-
       <div v-if="lingoGameData">
         <div v-for="feedback in lingoGameData.feedbacks" :key="feedback" class="row">
           <div :class="getClassForLetter(feedback.marks[x])" v-for="(letter,x) in feedback.attempt.split('')"
@@ -41,7 +37,7 @@
 
 <script>
 import axios from 'axios';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 
 export default {
@@ -54,27 +50,20 @@ export default {
       gameId: null
     }
   },
-  computed:{
-    filledFeedbacks(){
-      try {
-        let feedbacks = _.clone(this.lingoGameData.feedbacks)
-           return  _.assign(_.fill(new Array(5), []), feedbacks)
-      }catch (e){
-        return null
-
-      }
+  computed: {
+    filledFeedbacks() {
+    //   try {
+    //     let feedbacks = _.clone(this.lingoGameData.feedbacks)
+    //     return _.assign(_.fill(new Array(5), []), feedbacks)
+    //   } catch (e) {
+    //     return null
+    //
+    //   }
     }
-
-
-
-
-
 
 
   },
   methods: {
-
-
     startGame() {
       axios.post(`${this.$restip}/lingoGame/start`).then((response) => {
         this.lingoGameData = response.data;
@@ -140,7 +129,6 @@ export default {
 .row {
   margin: auto;
   width: 50%;
-  /*padding: 10px;*/
   display: flex;
 }
 
