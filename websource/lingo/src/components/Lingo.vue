@@ -50,22 +50,9 @@ export default {
       gameId: null
     }
   },
-  computed: {
-    filledFeedbacks() {
-    //   try {
-    //     let feedbacks = _.clone(this.lingoGameData.feedbacks)
-    //     return _.assign(_.fill(new Array(5), []), feedbacks)
-    //   } catch (e) {
-    //     return null
-    //
-    //   }
-    }
-
-
-  },
   methods: {
     startGame() {
-      axios.post(`${this.$restip}/lingoGame/start`).then((response) => {
+      axios.post(`${this.$restip}/lingoGame/start`,{},this.$auth()).then((response) => {
         this.lingoGameData = response.data;
         this.gameId = response.data.gameId;
         console.log(response.data);
@@ -76,7 +63,7 @@ export default {
 
     },
     nextRound() {
-      axios.post(`${this.$restip}/lingoGame/${this.gameId}/newRound`).then((response) => {
+      axios.post(`${this.$restip}/lingoGame/${this.gameId}/newRound`,{},this.$auth()).then((response) => {
         this.lingoGameData = response.data;
         this.gameId = response.data.gameId;
         console.log(response.data);
@@ -87,8 +74,7 @@ export default {
 
     },
     makeGuess() {
-      console.log(this.attempt);
-      axios.post(`${this.$restip}/lingoGame/${this.gameId}/guess`, {attempt: this.attempt}
+      axios.post(`${this.$restip}/lingoGame/${this.gameId}/guess`,{attempt: this.attempt},this.$auth()
       ).then((response) => {
         this.lingoGameData = response.data
         console.log(response);

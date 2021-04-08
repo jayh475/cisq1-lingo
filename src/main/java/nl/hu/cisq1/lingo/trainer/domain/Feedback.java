@@ -8,6 +8,7 @@ import nl.hu.cisq1.lingo.trainer.domain.exception.CustomException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -43,14 +44,19 @@ public class Feedback {
         }
 
         for (int i = 0; i < wordToGuessList.length; i++) {
+//            return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
+//            Arrays.stream(wordToGuessList).noneMatch(c -> c.equals(nonGuessedLetters[i])   );
+
             if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
                 nonGuessedLetters.add(wordToGuessList[i]);
             }
 
         }
+
         for (int i = 0; i < wordToGuessList.length; i++) {
             String letterInAttempt = lettersOfAttempt[i];
             String letter = wordToGuessList[i];
+
 
             if (letter.equals(lettersOfAttempt[i])) {
                 marks.add(CORRECT);

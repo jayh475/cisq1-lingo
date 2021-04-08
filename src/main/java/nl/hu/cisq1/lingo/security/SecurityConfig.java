@@ -37,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, REGISTER_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, LOGIN_PATH).permitAll()
-                .antMatchers(HttpMethod.GET,WORD).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(
@@ -65,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
         corsConfiguration.addExposedHeader("Authorization");
+        corsConfiguration.addExposedHeader("Role");
         corsConfiguration.addAllowedOrigin("*");
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;

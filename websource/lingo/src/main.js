@@ -9,21 +9,18 @@ import  Vuex from 'vuex';
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+Vue.use(VueMaterial)
 
+
+//vuelidate
 import { validationMixin } from 'vuelidate'
-import {
-  required,
-  email,
-  minLength,
-  maxLength
-} from 'vuelidate/lib/validators'
-
-
+import {required, email, minLength, maxLength} from 'vuelidate/lib/validators'
 Vue.use(required,email,minLength,maxLength);
-
 Vue.use(validationMixin);
 
 
+
+//routing
 Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
@@ -37,7 +34,19 @@ Vue.use(VueMaterial);
 Vue.config.productionTip = false
 
 Vue.prototype.$restip = ''
-Vue.prototype.$restip = 'http://localhost:8080'
+Vue.prototype.$restip = 'http://localhost:8070'
+
+
+//authentication token
+Vue.prototype.$auth = () => {
+  return {
+    headers: {
+      Authorization: localStorage.getItem('auth')
+    }
+  }
+}
+
+
 
 const store = new Vuex.Store({
   state:{
