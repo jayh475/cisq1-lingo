@@ -7,7 +7,13 @@ import Auth from "@/components/Auth";
 export default  new VueRouter({
     routes:[
         {path: '/', component: Auth},
-        {path: "/Lingo", component: lingo}
+        {path: "/Lingo", component: lingo},
+
+
+
+
+
+
 
     ]
 

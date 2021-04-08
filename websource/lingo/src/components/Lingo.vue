@@ -14,6 +14,7 @@
       <p> game Id = {{ this.gameId }}</p>
 
 
+
       <div v-if="lingoGameData">
         <div v-for="feedback in lingoGameData.feedbacks" :key="feedback" class="row">
           <div :class="getClassForLetter(feedback.marks[x])" v-for="(letter,x) in feedback.attempt.split('')"
@@ -50,6 +51,12 @@ export default {
       gameId: null
     }
   },
+  computed:{
+
+
+
+  },
+
   methods: {
     startGame() {
       axios.post(`${this.$restip}/lingoGame/start`,{},this.$auth()).then((response) => {

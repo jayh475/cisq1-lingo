@@ -26,12 +26,6 @@ Vue.use(VueRouter);
 Vue.use(VueMaterial);
 
 
-// register the plugin on vue / eventueel handig voor components
-// import Toasted from 'vue-toasted';
-// Vue.use(Toasted)
-
-
-Vue.config.productionTip = false
 
 Vue.prototype.$restip = ''
 Vue.prototype.$restip = 'http://localhost:8070'
