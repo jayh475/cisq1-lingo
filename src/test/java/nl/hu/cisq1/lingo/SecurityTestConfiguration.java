@@ -16,7 +16,7 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 
 
-public class SecurityConfiguration {
+public class SecurityTestConfiguration {
 
     public static String getJwtToken(SpringUserRepository userRepository) {
             UserService userService = new UserService(userRepository, mock(PasswordEncoder.class));

@@ -14,5 +14,7 @@ public class TrainerDataFixtures implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         springGameRepository.save(new LingoGame("woord","jayh475"));
+
+
     }
 }
