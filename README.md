@@ -5,8 +5,6 @@
 docker-compose up  
 ```
 
-
-
 ## Project jacoco testing 
 ```
 mvnw verify 
@@ -29,8 +27,16 @@ mvnw -DwithHistory org.pitest:pitest-maven:mutationCoverage
 ```
 For testing the whole application we can use Selenium and selenium IDE 
 
+```
+
+## Testing dependencies with Dependency-check-maven
+```
+mvnw verify
+( results can be found in target/dependency-check-report.html )
 
 ```
+
+
 
 
 
