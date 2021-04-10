@@ -44,8 +44,7 @@ public class Feedback {
         }
 
         for (int i = 0; i < wordToGuessList.length; i++) {
-//            return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
-//            Arrays.stream(wordToGuessList).noneMatch(c -> c.equals(nonGuessedLetters[i])   );
+
 
             if (!lettersOfAttempt[i].equals(wordToGuessList[i])) {
                 nonGuessedLetters.add(wordToGuessList[i]);

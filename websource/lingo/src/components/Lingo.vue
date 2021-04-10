@@ -1,11 +1,23 @@
 <template>
-
   <div>
 
+
+
+  <nav>
+
+  </nav>
+
+
+
+  <main>
+<!--1 -->
     <button v-on:click="startGame">Start game</button>
+
+<!-- 2 -->
     <P>{{ lingoGameData }}</p>
 
 
+<!-- 3-->
     <div class="game">
 
       <input class="form-control" v-model="attempt" name="guess" placeholder="guess">
@@ -30,9 +42,13 @@
     <button v-on:click="nextRound">Volgende ronde</button>
 
 
+  </main>
+
+
+
+
+
   </div>
-
-
 </template>
 
 
@@ -148,30 +164,12 @@ export default {
 }
 
 
-.item-a {
-  grid-area: header;
-}
+main{
+  display:grid;
+  grid-template-columns: 1fr 500px 1fr;
+  /*grid-template-rows: 1fr;*/ 
 
-.item-b {
-  grid-area: game;
-}
 
-.item-c {
-  grid-area: sidebar;
-}
-
-.item-d {
-  grid-area: footer;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: 50px 50px 50px 50px;
-  grid-template-rows: auto;
-  grid-template-areas:
-    "header header header header"
-    ". game game ."
-    "footer footer footer ";
 }
 
 
